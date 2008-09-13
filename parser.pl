@@ -14,7 +14,7 @@ sub trim($)
 sub parse_score
 {
 	$_ = @_[0];
-	my $score = {	data	=>	$_};
+	my $score = {	data	=>	trim($_)};
 
 	if (/^\s*(\d+)(=?)\s+(\D*)\s+(-?\d+)(\s+\d+x)?((\s+(Bronze|Silver|Gold))?)\s*$/) {
 
@@ -59,39 +59,46 @@ sub print_bar_graph
 	}
 }
 
+sub print_competition
+{
+	my $comp = @_[0];
+	
+	print "<h2>", $comp->{name}, "</h2>";
+	my @s = @{$comp->{scores}};
+	if ($comp->{entries} == 0) {
+		print "<p class='entries'>No Entries</p>";
+		return;
+	}
+	
+	print "<p class='entries'>", $comp->{entries}, " Entries</p>";
+	
+	print "<table>";
+	print "<tr><td>Position</td><td>Name</td><td colspan='2'>Score</td><td>Prize</td></tr>";
+	foreach my $score (@s) {
+		if ($score->{type} eq "unknown") {
+			print "<tr class='unknown'><td colspan='5'>UNKNOWN: ", $score->{data}, "</td></tr>";
+			next;
+			
+		}
+		print "<tr class='", $score->{medal}, "'>";
+		print "<td>", $score->{position}, $score->{joint} ? "=" : "", "</td>";			
+		print "<td>", $score->{name}, "</td>";
+		print "<td>", $score->{score}, "</td>";
+		print "<td>", defined($score->{nox}) ? $score->{nox}."x" : "", "</td>";
+		print "<td>", $score->{medal}, "</td>";
+		print_bar_graph($score->{score}, $comp->{minscore}, $comp->{maxscore});
+		print "</tr>";
+	}
+	print "</table>";
+}
+
 sub print_scores
 {
 	my $competitions = @_[0];
 	
 	my $comp;
 	foreach $comp (@$competitions) {
-		print "<h2>", $comp->{name}, "</h2>";
-		if ($comp->{entries} == 0) {
-			print "<p class='entries'>No Entries</p>";
-			next;
-		}
-		
-		print "<p class='entries'>", $comp->{entries}, " Entries</p>";
-		
-		print "<table>";
-		print "<tr><td>Position</td><td>Name</td><td colspan='2'>Score</td><td>Prize</td></tr>";
-		
-		my $score;
-		foreach $score (@{$comp->{scores}}) {
-			if ($score->{type} eq "unknown") {
-				print "<tr class='unknown'><td colspan='5'>UNKNOWN: ", $score->{data}, "</td></tr>";
-				next;
-				
-			}
-			print "<tr class='", $score->{medal}, "'>";
-			print "<td>", $score->{position}, $score->{joint} ? "=" : "", "</td>";			
-			print "<td>", $score->{name}, "</td>";
-			print "<td>", $score->{score}, "</td>";
-			print "<td>", defined($score->{nox}) ? $score->{nox}."x" : "", "</td>";
-			print "<td>", $score->{medal}, "</td>";
-			print_bar_graph($score->{score}, $comp->{minscore}, $comp->{maxscore});
-			print "</tr>";
-		}
+		print_competition($comp);
 	}
 }
 
@@ -110,67 +117,71 @@ sub prepare_competitions
 		$comp->{minscore} = $comp->{scores}->[(scalar @{$comp->{scores}}) - 1]->{score};		
 	}
 }
+sub main
+{
+	print "<html><head><link rel='stylesheet' type='text/css' href='scorestyle.css' /></head><body><table>";
 
-print "<html><head><link rel='stylesheet' type='text/css' href='scorestyle.css' /></head><body><table>";
+	my $i=0;
+	my $lastline;
+	my $competitions = [];
+	my $state = "between competitions";
 
-my $i=0;
-my $lastline;
-my $competitions = [];
-my $state = "between competitions";
-
-my $competition = {
-	scores => []
-};
+	my $competition = {
+		scores => []
+	};
 
 
-foreach (<STDIN>) {
-	$i++;
-	my $line = $_;
-	my $oldstate = $state;
+	foreach (<STDIN>) {
+		$i++;
+		my $line = $_;
+		my $oldstate = $state;
 		
-	if ($state eq "reading scores") {
-		if (/^\s+$/) {
-			push @$competitions, $competition;
-			$state = "between competitions";
-			$competition = {scores => []};
+		if ($state eq "reading scores") {
+			if (/^\s+$/) {
+				push @$competitions, $competition;
+				$state = "between competitions";
+				$competition = {scores => []};
+			}
+			else {
+				push @{$competition->{scores}}, parse_score($line);
+			}
+		}
+		elsif($state eq "between competitions") {
+			if (/^\s*(\d+) Entries\s*$/) {
+				$competition->{entries} = $1;
+				$state = "awaiting header";
+			}
+			elsif (/^\s*No Entries\s*$/) {
+				$competition->{entries} = 0;
+				push @$competitions, $competition;
+				$competition = {scores => []};
+			}
+			else {
+				$competition->{name} = trim($_);
+			}
+		}
+		elsif($state eq "awaiting header") {
+			if (/\t/) {
+				$state = "reading scores"
+			}
+			else {
+				print STDERR "line ", $i, ": Expected table header.  Got '", $_, "' instead!\n";
+				$state = "between competitions";
+			}
 		}
 		else {
-			push @{$competition->{scores}}, parse_score($line);
+			print STDERR "line ", $i, ": unexpected state '", $state, "'\n"
 		}
-	}
-	elsif($state eq "between competitions") {
-		if (/^\s*(\d+) Entries\s*$/) {
-			$competition->{entries} = $1;
-			$state = "awaiting header";
-		}
-		elsif (/^\s*No Entries\s*$/) {
-			$competition->{entries} = 0;
-			push @$competitions, $competition;
-			$competition = {scores => []};
-		}
-		else {
-			$competition->{name} = $_;
-		}
-	}
-	elsif($state eq "awaiting header") {
-		if (/\t/) {
-			$state = "reading scores"
-		}
-		else {
-			print STDERR "line ", $i, ": Expected table header.  Got '", $_, "' instead!\n";
-			$state = "between competitions";
-		}
-	}
-	else {
-		print STDERR "line ", $i, ": unexpected state '", $state, "'\n"
-	}
 	
-	$lastline = $_;
+		$lastline = $_;
 	
-	print "<tr class='$oldstate'><td>$i</td><td>$oldstate</td><td>", $line, "</td></tr>\n";
+		print "<tr class='$oldstate'><td>$i</td><td>$oldstate</td><td>", $line, "</td></tr>\n";
+	};
+
+	print "</table>";
+	prepare_competitions($competitions);
+	print_scores($competitions);
+	print "</body></html>";
 };
 
-print "</table>";
-prepare_competitions($competitions);
-print_scores($competitions);
-print "</body></html>";
+main();
