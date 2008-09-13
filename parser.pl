@@ -70,6 +70,22 @@ sub print_scores
 	}
 }
 
+# Extracts information about competitions by looking at the results
+sub prepare_competitions
+{
+	my $competitions = @_[0];
+	my $comp;
+	foreach $comp (@$competitions) {
+		if (scalar @{$comp->{scores}} == 0) {
+			next;
+		}
+
+		$comp->{type} = $comp->{scores}->[0]->{type};		
+		$comp->{maxscore} = $comp->{scores}->[0]->{score};
+		$comp->{minscore} = $comp->{scores}->[(scalar @{$comp->{scores}}) - 1]->{score};		
+	}
+}
+
 print "<html><head><link rel='stylesheet' type='text/css' href='scorestyle.css' /></head><body><table>";
 
 my $i=0;
@@ -130,5 +146,6 @@ foreach (<STDIN>) {
 };
 
 print "</table>";
+prepare_competitions($competitions);
 print_scores($competitions);
 print "</body></html>";
