@@ -191,8 +191,20 @@ sub parse
 	return $competitions;
 }
 
+sub print_file
+{
+	my $filename = shift;
+	open FILE, $filename or die $!;
+	
+	foreach (<FILE>) {
+		print;
+	}
+}
+
 sub main
 {
+	print_file("header.html");
+	
 	print "<html><head><link rel='stylesheet' type='text/css' href='scorestyle.css' /></head><body>";
 	my $competitions = parse(\*STDIN);
 	prepare_competitions($competitions);
