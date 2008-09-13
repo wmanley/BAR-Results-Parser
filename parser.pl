@@ -1,22 +1,32 @@
 #!/usr/bin/perl
 
 use strict;
+use Data::Dumper;
+
+sub trim($)
+{
+	my $string = shift;
+	$string =~ s/^\s+//;
+	$string =~ s/\s+$//;
+	return $string;
+}
 
 sub parse_score
 {
-	$_ = unshift @_;
+	$_ = @_[0];
 	my $score = {	data	=>	$_};
 
 	if (/^\s*(\d+)(=?)\s+(\D*)\s+(-?\d+)(\s+\d+x)?((\s+(Bronze|Silver|Gold))?)\s*$/) {
 
 		$score->{type}	= "standard";
-		$score->{position} = $1;
+		$score->{position} = trim($1);
 		$score->{joint}	= $2 eq "=";
-		$score->{name}	= $3;
-		$score->{score}	= $4;
-		$score->{nox}	= $5;
-		$score->{medal}	= $6;
+		$score->{name}	= trim($3);
+		$score->{score}	= trim($4);
+		$score->{nox}	= trim($5);
+		$score->{medal}	= trim($6);
 
+		$score->{nox} =~ s/x//;
 	}
 	else {
 		$score->{type} = "unknown";
@@ -24,6 +34,8 @@ sub parse_score
 	
 	return $score;
 }
+
+
 
 print "<html><head><link rel='stylesheet' type='text/css' href='scorestyle.css' /></head><body><table>";
 
@@ -49,7 +61,7 @@ foreach (<STDIN>) {
 			$competition = {scores => []};
 		}
 		else {
-			push @{$competition->{scores}}, parse_score($_);
+			push @{$competition->{scores}}, parse_score($line);
 		}
 	}
 	elsif($state eq "between competitions") {
@@ -84,4 +96,6 @@ foreach (<STDIN>) {
 	print "<tr class='$oldstate'><td>$i</td><td>$oldstate</td><td>", $line, "</td></tr>\n";
 };
 
-print "</table></body></html>";
+print "</table><pre>";
+print Dumper($competitions);
+print "</pre></body></html>";
