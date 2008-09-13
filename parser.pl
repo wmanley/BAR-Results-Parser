@@ -28,6 +28,30 @@ sub parse_score
 
 		$score->{nox} =~ s/x//;
 	}
+	elsif (/^(\d+)(=?)\s+(\D*)\s+((\d+|-)\s*\/\s*(\d+|-)\s*\/\s*(\d+|-)\s*\/\s*(\d+|-))\s*\/\s*(\d+)((\s+(Bronze|Silver|Gold))?)$/) {
+		$score->{type}	= "aggregate";
+		$score->{position} = trim($1);
+		$score->{joint}	= $2 eq "=";
+		$score->{name}	= trim($3);
+		$score->{components}	= trim($4);
+		$score->{score}	= trim($5);
+		$score->{medal}	= trim($6);
+
+		$score->{components} =~ s/\//\+/g;
+	}
+	elsif (/^(\d+)(=?)\s+(\D+)\s*\((-?\d+)\)\s+\&\s+(\D+)\s+\((-?\d+)\)\s*(-?\d+)((\s+(Bronze|Silver|Gold))?)$/) {
+		$score->{type}	= "doubles";
+		$score->{position} = trim($1);
+		$score->{joint}	= $2 eq "=";
+		$score->{name1}	= trim($3);
+		$score->{score1}	= trim($4);
+		$score->{name2}	= trim($5);
+		$score->{score2}	= trim($6);
+		$score->{score}	= trim($7);
+		$score->{medal}	= trim($8);
+
+		$score->{components} =~ s/\//\+/g;
+	}
 	else {
 		$score->{type} = "unknown";
 	};
@@ -86,9 +110,20 @@ sub print_competition
 			next;
 			
 		}
+		
 		print "<tr onClick='javascript:ClickedThis(this)' class='", $score->{medal}, "'>";
 		print "<td>", $score->{position}, $score->{joint} ? "=" : "", "</td>";			
+		
 		print "<td>", $score->{name}, "</td>";
+		if ($score->{type} eq "aggregate") {
+			print "<td>", $score->{components}, " = </td>";
+		}
+		if ($score->{type} eq "doubles") {
+			print "<td>", $score->{name1}, " </td>";
+			print "<td> ", $score->{score1}, " + ";
+			print $score->{score2}, " </td>";
+			print "<td> ", $score->{name2}, "</td>";
+		}
 		print "<td>", $score->{score}, "</td>";
 		print "<td>", defined($score->{nox}) ? $score->{nox}."x" : "", "</td>";
 		print "<td>", $score->{medal}, "</td>";
@@ -201,14 +236,51 @@ sub print_file
 	}
 }
 
+sub analyse_people
+{
+	my $competitions = shift;
+	my $people = {};
+	
+	foreach my $comp (@$competitions) {
+		foreach my $score (@{$comp->{scores}}) {
+			if ($score->{type} eq "unknown") {
+				next;
+			}
+			$people->{$score->{name}}->{entries}++;
+			if ($score->{medal} eq "Gold") {
+	 			$people->{$score->{name}}->{golds}++;
+			}
+			if ($score->{medal} eq "Silver") {
+	 			$people->{$score->{name}}->{silvers}++;
+			}
+			if ($score->{medal} eq "Bronze") {
+	 			$people->{$score->{name}}->{bronzes}++;
+			}
+		}
+	}
+	return $people;
+}
+
+sub print_people
+{
+	my $people = shift;
+	print "<table class='sortable'><tr><th>Name</th><th>Entries</th><th>Golds</th><th>Silvers</th><th>Bronzes</th></tr>";
+	while (my ($name, $value) = each(%$people)) {
+		print "<tr><td>", $name, "</td><td>", $value->{entries}, "</td><td>", $value->{golds}, "</td><td>", $value->{silvers}, "</td><td>", $value->{bronzes}, "</td></tr>\n";
+	}
+	print "</table>";
+}
+
 sub main
 {
 	print_file("header.html");
 	
-	print "<html><head><link rel='stylesheet' type='text/css' href='scorestyle.css' /></head><body>";
 	my $competitions = parse(\*STDIN);
 	prepare_competitions($competitions);
 	print_scores($competitions);
+	
+	my $people = analyse_people($competitions);
+	print_people($people);
 	print "</body></html>";
 };
 
