@@ -86,7 +86,7 @@ sub print_competition
 			next;
 			
 		}
-		print "<tr class='", $score->{medal}, "'>";
+		print "<tr onClick='javascript:ClickedThis(this)' class='", $score->{medal}, "'>";
 		print "<td>", $score->{position}, $score->{joint} ? "=" : "", "</td>";			
 		print "<td>", $score->{name}, "</td>";
 		print "<td>", $score->{score}, "</td>";

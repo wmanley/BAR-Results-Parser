@@ -1,0 +1,76 @@
+<html>
+<head>
+<title>Autumn Meeting 2007 Results - British Alpine Rifles</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>    
+<style>
+.Gold {
+	background-color: #E9D994
+}
+.Silver {
+	background-color: #D3DEE1
+}
+.Bronze {
+	background-color: #C6B69F
+}
+.pos div {
+	background-color: #00FF00;
+	height:	1em;
+}
+.neg div {
+	background-color: #FF0000;
+	height: 1em;
+	float:right;
+}
+
+.neg {
+	background-color: #FFFFFF;
+}
+
+.pos {
+	background-color: #FFFFFF;
+}
+.poshead {
+	width: 50px
+}
+.namehead {
+	width: 200px
+}
+
+.scorehead {
+	width: 50px
+}
+
+td {
+	padding: 0px;
+	margin: 0px
+}
+</style>
+<script type="text/javascript">
+/* <![CDATA[ */
+function ClickedThis(trelement) {
+	SelectName(trelement.getElementsByTagName("td")[1].innerHTML);
+}
+
+function SelectName(shooter) {
+	var trs = document.getElementsByTagName("tr");
+	for (var j = 0; j < trs.length; j++) {
+		var tds = trs[j].getElementsByTagName("td");
+		if (tds.length > 2 && tds[1].innerHTML == shooter) {
+			// Have to iterate through all the tds!
+			for (var k=0; k<tds.length; k++) {
+				tds[k].style.borderTop="3px solid #FF0000";
+				tds[k].style.borderBottom="3px solid #FF0000";
+			}
+			tds[0].style.borderLeft="3px solid #FF0000";
+			tds[tds.length-1].style.borderRight="3px solid #FF0000";
+		}
+	}
+}
+/* ]]> */
+</script>
+</head>
+<body>
+<h1>Autumn Meeting 2007 Results - British Alpine Rifles</h1>
+<p>Click on a name to have all instances of that name highlighted.</p>
+
+
