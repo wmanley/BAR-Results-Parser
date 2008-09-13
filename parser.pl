@@ -35,6 +35,30 @@ sub parse_score
 	return $score;
 }
 
+sub print_bar_graph
+{
+	my ($score, $minscore, $maxscore) = @_;
+	my $barwidth = 300;
+	
+	if ($minscore > 0) {
+		$minscore = 0;
+	}
+	
+	if ($maxscore < 0) {
+		$maxscore = 0;
+	}
+	
+	my $m = $barwidth / ($maxscore - $minscore);
+	my $c = $m * -$minscore;
+	
+	if ($score > 0) {
+		print "<td class='neg'></td><td class='pos'><div style='width:", $m*$score, "px'> </div></td>";
+	}
+	else {
+		print "<td class='neg'><div style='width:", -$m*$score, "px'> </div></td><td class='pos'></td>";
+	}
+}
+
 sub print_scores
 {
 	my $competitions = @_[0];
@@ -65,6 +89,7 @@ sub print_scores
 			print "<td>", $score->{score}, "</td>";
 			print "<td>", defined($score->{nox}) ? $score->{nox}."x" : "", "</td>";
 			print "<td>", $score->{medal}, "</td>";
+			print_bar_graph($score->{score}, $comp->{minscore}, $comp->{maxscore});
 			print "</tr>";
 		}
 	}
