@@ -57,6 +57,11 @@ foreach (<STDIN>) {
 			$competition->{entries} = $1;
 			$state = "awaiting header";
 		}
+		elsif (/^\s*No Entries\s*$/) {
+			$competition->{entries} = 0;
+			push @$competitions, $competition;
+			$competition = {scores => []};
+		}
 		else {
 			$competition->{name} = $_;
 		}
