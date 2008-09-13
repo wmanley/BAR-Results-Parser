@@ -16,7 +16,7 @@ sub parse_score
 	$_ = @_[0];
 	my $score = {	data	=>	trim($_)};
 
-	if (/^\s*(\d+)(=?)\s+(\D*)\s+(-?\d+)(\s+\d+x)?((\s+(Bronze|Silver|Gold))?)\s*$/) {
+	if (/^\s*(\d+)(=?)\s+(\D*)\s+(-?\d+\.?\d*|No score)(\s+\d+x)?((\s+(Bronze|Silver|Gold))?)\s*$/) {
 
 		$score->{type}	= "standard";
 		$score->{position} = trim($1);
@@ -39,6 +39,12 @@ sub print_bar_graph
 {
 	my ($score, $minscore, $maxscore) = @_;
 	my $barwidth = 300;
+	
+	if ($minscore > $maxscore) {
+		my $a = $maxscore;
+		$maxscore = $minscore;
+		$minscore = $a;
+	}
 	
 	if ($minscore > 0) {
 		$minscore = 0;
@@ -87,7 +93,7 @@ sub print_competition
 		print "<td>", defined($score->{nox}) ? $score->{nox}."x" : "", "</td>";
 		print "<td>", $score->{medal}, "</td>";
 		print_bar_graph($score->{score}, $comp->{minscore}, $comp->{maxscore});
-		print "</tr>";
+		print "</tr>\n";
 	}
 	print "</table>";
 }
@@ -115,8 +121,16 @@ sub prepare_competitions
 		$comp->{type} = $comp->{scores}->[0]->{type};		
 		$comp->{maxscore} = $comp->{scores}->[0]->{score};
 		$comp->{minscore} = $comp->{scores}->[(scalar @{$comp->{scores}}) - 1]->{score};		
+
+		# This is required if the last score is "No Score"
+		foreach (@{$comp->{scores}}) {
+			if ($_->{score} > $comp->{maxscore}) {
+				$comp->{maxscore} = $_->{score};
+			}
+		}
 	}
 }
+
 sub main
 {
 	print "<html><head><link rel='stylesheet' type='text/css' href='scorestyle.css' /></head><body><table>";
@@ -174,8 +188,6 @@ sub main
 		}
 	
 		$lastline = $_;
-	
-		print "<tr class='$oldstate'><td>$i</td><td>$oldstate</td><td>", $line, "</td></tr>\n";
 	};
 
 	print "</table>";
