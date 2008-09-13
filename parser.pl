@@ -35,7 +35,40 @@ sub parse_score
 	return $score;
 }
 
-
+sub print_scores
+{
+	my $competitions = @_[0];
+	
+	my $comp;
+	foreach $comp (@$competitions) {
+		print "<h2>", $comp->{name}, "</h2>";
+		if ($comp->{entries} == 0) {
+			print "<p class='entries'>No Entries</p>";
+			next;
+		}
+		
+		print "<p class='entries'>", $comp->{entries}, " Entries</p>";
+		
+		print "<table>";
+		print "<tr><td>Position</td><td>Name</td><td colspan='2'>Score</td><td>Prize</td></tr>";
+		
+		my $score;
+		foreach $score (@{$comp->{scores}}) {
+			if ($score->{type} eq "unknown") {
+				print "<tr class='unknown'><td colspan='5'>UNKNOWN: ", $score->{data}, "</td></tr>";
+				next;
+				
+			}
+			print "<tr class='", $score->{medal}, "'>";
+			print "<td>", $score->{position}, $score->{joint} ? "=" : "", "</td>";			
+			print "<td>", $score->{name}, "</td>";
+			print "<td>", $score->{score}, "</td>";
+			print "<td>", defined($score->{nox}) ? $score->{nox}."x" : "", "</td>";
+			print "<td>", $score->{medal}, "</td>";
+			print "</tr>";
+		}
+	}
+}
 
 print "<html><head><link rel='stylesheet' type='text/css' href='scorestyle.css' /></head><body><table>";
 
@@ -96,6 +129,6 @@ foreach (<STDIN>) {
 	print "<tr class='$oldstate'><td>$i</td><td>$oldstate</td><td>", $line, "</td></tr>\n";
 };
 
-print "</table><pre>";
-print Dumper($competitions);
-print "</pre></body></html>";
+print "</table>";
+print_scores($competitions);
+print "</body></html>";

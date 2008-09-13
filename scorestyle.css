@@ -9,3 +9,49 @@
 .awaiting {
 	background-color: #A0A0FF
 }
+
+.Gold {
+	background-color: #E9D994
+}
+.Silver {
+	background-color: #D3DEE1
+}
+.Bronze {
+	background-color: #C6B69F
+}
+.pos div {
+	background-color: #00FF00;
+	height:	1em;
+}
+.neg div {
+	background-color: #FF0000;
+	height: 1em;
+	float:right;
+}
+
+.neg {
+	background-color: #FFFFFF;
+}
+
+.pos {
+	background-color: #FFFFFF;
+}
+.poshead {
+	width: 50px
+}
+.namehead {
+	width: 200px
+}
+
+.scorehead {
+	width: 50px
+}
+
+td {
+	padding: 0px;
+	margin: 0px
+}
+
+.unknown {
+	background-color: #FFA0A0
+}
