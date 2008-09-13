@@ -131,10 +131,9 @@ sub prepare_competitions
 	}
 }
 
-sub main
+sub parse
 {
-	print "<html><head><link rel='stylesheet' type='text/css' href='scorestyle.css' /></head><body><table>";
-
+	my $input = shift;
 	my $i=0;
 	my $lastline;
 	my $competitions = [];
@@ -145,7 +144,7 @@ sub main
 	};
 
 
-	foreach (<STDIN>) {
+	foreach (<$input>) {
 		$i++;
 		my $line = $_;
 		my $oldstate = $state;
@@ -189,8 +188,13 @@ sub main
 	
 		$lastline = $_;
 	};
+	return $competitions;
+}
 
-	print "</table>";
+sub main
+{
+	print "<html><head><link rel='stylesheet' type='text/css' href='scorestyle.css' /></head><body>";
+	my $competitions = parse(\*STDIN);
 	prepare_competitions($competitions);
 	print_scores($competitions);
 	print "</body></html>";
