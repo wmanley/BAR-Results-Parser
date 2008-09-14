@@ -407,8 +407,24 @@ sub get_full_name
 		return $initial . " " . $surname;
 	}
 	elsif ((scalar @poss) < 1) {
-		print STDERR "Warning: No match for abbreviation '$initial $surname'\n";
-		return $initial . " " . $surname;
+		print STDERR "Warning: No match for abbreviation '$initial $surname'.  Trying just surname:\n";
+		foreach (keys %$people) {
+			if (/^\S\S+\s+($surname)$/) {
+				push @poss, $_;
+			}
+		}
+		if ((scalar @poss) > 1) {
+			print STDERR "\tAmbiguous.\n";
+			return $initial . " " . $surname;
+		}
+		elsif ((scalar @poss) < 1) {
+			print STDERR "\tStill no match.\n";
+			return $initial . " " . $surname;
+		}
+		else {
+			print STDERR "\tSuccess: '", $poss[0], "'\n";
+			return @poss[0];	
+		}
 	}
 	else {
 		return @poss[0];
