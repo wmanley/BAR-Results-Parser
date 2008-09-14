@@ -47,9 +47,18 @@ sub parse_score
 		$score->{scores}	= [trim($4), trim($6)];
 		$score->{score}	= trim($7);
 		$score->{medal}	= trim($8);
-
-		$score->{components} =~ s/\//\+/g;
 	}
+	elsif (/^(\d+)(=?)\s+(\D+)\s*\((-?\d+)\),\s+(\D+)\s*\((-?\d+)\)\s+\&\s+(\D+)\s+\((-?\d+)\)\s*(-?\d+)((\s+(Bronze|Silver|Gold))?)$/) {
+		$score->{type}	= "doubles";
+		$score->{position} = trim($1);
+		$score->{joint}	= $2 eq "=";
+		$score->{name}	= [trim($3), trim($5), trim($7)];
+		$score->{scores}= [trim($4), trim($6), trim($8)];
+		$score->{score}	= trim($9);
+		$score->{medal}	= trim($10);
+		print Dumper($score);
+	}
+	
 	elsif (/^(\d+)(=?)\s+(\D*)$/) {
 		$score->{type}	= "manvman";
 		$score->{position} = trim($1);
@@ -123,11 +132,16 @@ sub print_competition
 		print "<tr onClick='javascript:ClickedThis(this)' class='", $score->{medal}, "'>";
 		print "<td>", $score->{position}, $score->{joint} ? "=" : "", "</td>";			
 		
-		if ($score->{type} eq "doubles") {
+		if (scalar @{$score->{name}} == 2) {
 			print "<td>", $score->{name}->[0], " </td>";
 			print "<td> ", $score->{scores}->[0], " + ";
 			print $score->{scores}->[1], " </td>";
 			print "<td> ", $score->{name}->[1], "</td>";
+		}
+		elsif (scalar @{$score->{name}} == 3) {
+			print "<td>", $score->{name}->[0], " (", $score->{scores}->[0], "), ";
+			print $score->{name}->[1], " (", $score->{scores}->[1], ") & ";
+			print $score->{name}->[2], " (", $score->{scores}->[2], ")</td>";
 		}
 		else {
 			print "<td>", $score->{name}->[0], "</td>";
