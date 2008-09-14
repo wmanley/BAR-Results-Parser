@@ -52,14 +52,16 @@ sub parse_score
 
 		$score->{components} =~ s/\//\+/g;
 	}
-	elsif (/^(\d+)(=?)\s+(\D*)\s+((\s+(Bronze|Silver|Gold))?)$/) {
+	elsif (/^(\d+)(=?)\s+(\D*)$/) {
 		$score->{type}	= "manvman";
 		$score->{position} = trim($1);
 		$score->{joint}	= $2 eq "=";
 		$score->{name}	= trim($3);
-		$score->{medal}	= trim($4);
-
-		$score->{nox} =~ s/x//;
+		
+		if ($score->{name} =~ /(Bronze|Silver|Gold)$/) {
+			$score->{medal} = $1;
+			$score->{name} =~ s/\s+(Bronze|Silver|Gold)$//;
+		}
 	}
 	else {
 		$score->{type} = "unknown";
