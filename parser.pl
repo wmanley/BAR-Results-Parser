@@ -275,9 +275,13 @@ sub analyse_people
 sub print_people
 {
 	my $people = shift;
-	print "<table class='sortable'><tr><th>Name</th><th>Entries</th><th>Golds</th><th>Silvers</th><th>Bronzes</th></tr>";
+	print "<table class='sortable'><tr><th>Name</th><th>Entries</th><th>Golds</th><th>Silvers</th><th>Bronzes</th><th>Biggest Rival</th></tr>";
 	while (my ($name, $value) = each(%$people)) {
-		print "<tr><td>", $name, "</td><td>", $value->{entries}, "</td><td>", $value->{golds}, "</td><td>", $value->{silvers}, "</td><td>", $value->{bronzes}, "</td></tr>\n";
+		print "<tr><td>", $name, "</td><td>", $value->{entries}, 
+			"</td><td>", $value->{golds}, 
+			"</td><td>", $value->{silvers}, 
+			"</td><td>", $value->{bronzes}, 
+			"</td><td>", $value->{rival}, " (", $value->{rival_diff}, "/", $value->{rival_matches}, ")</td></tr>\n";
 	}
 	print "</table>";
 }
@@ -341,6 +345,31 @@ sub print_big_enemies_table
 	print "</table>";
 }
 
+sub analyse_rivalries
+{
+	my $enemies = shift;
+	my $people = shift;
+	
+	my @peoples_names = keys %$people;
+	
+	my %rivalries;
+	
+	foreach my $winner (@peoples_names) {
+		foreach my $loser (@peoples_names) {
+			my $won = $enemies->{$winner}->{$loser};
+			my $lost = $enemies->{$loser}->{$winner};
+			
+			if (($won + $lost) > 0) {
+				$rivalries{$winner}->{$loser} = abs(($won-$lost)/($won+$lost)) - log($won+$lost)/5;
+			};
+		};
+		my @rivals = sort { $rivalries{$winner}->{$a} <=> $rivalries{$winner}->{$b} } keys %{$rivalries{$winner}};
+		$people->{$winner}->{rival} = $rivals[0];
+		$people->{$winner}->{rival_matches} = $enemies->{$rivals[0]}->{$winner} + $enemies->{$winner}->{$rivals[0]};
+		$people->{$winner}->{rival_diff} = $enemies->{$rivals[0]}->{$winner} - $enemies->{$winner}->{$rivals[0]};
+	}
+}
+
 sub main
 {
 	print_file("header.html");
@@ -350,11 +379,12 @@ sub main
 	print_scores($competitions);
 	
 	my $people = analyse_people($competitions);
-	print_people($people);
-	
 	my $enemies = analyse_enemies($competitions);
+	analyse_rivalries($enemies, $people);
+
+	print_people($people);
 	print_big_enemies_table($enemies, $people);
-	
+		
 	print "</body></html>";
 };
 
