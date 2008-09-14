@@ -21,7 +21,7 @@ sub parse_score
 		$score->{type}	= "standard";
 		$score->{position} = trim($1);
 		$score->{joint}	= $2 eq "=";
-		$score->{name}	= trim($3);
+		$score->{name}	= [trim($3)];
 		$score->{score}	= trim($4);
 		$score->{nox}	= trim($5);
 		$score->{medal}	= trim($6);
@@ -32,7 +32,7 @@ sub parse_score
 		$score->{type}	= "aggregate";
 		$score->{position} = trim($1);
 		$score->{joint}	= $2 eq "=";
-		$score->{name}	= trim($3);
+		$score->{name}	= [trim($3)];
 		$score->{components}	= trim($4);
 		$score->{score}	= trim($5);
 		$score->{medal}	= trim($6);
@@ -43,10 +43,8 @@ sub parse_score
 		$score->{type}	= "doubles";
 		$score->{position} = trim($1);
 		$score->{joint}	= $2 eq "=";
-		$score->{name1}	= trim($3);
-		$score->{score1}	= trim($4);
-		$score->{name2}	= trim($5);
-		$score->{score2}	= trim($6);
+		$score->{name}	= [trim($3), trim($5)];
+		$score->{scores}	= [trim($4), trim($6)];
 		$score->{score}	= trim($7);
 		$score->{medal}	= trim($8);
 
@@ -56,12 +54,12 @@ sub parse_score
 		$score->{type}	= "manvman";
 		$score->{position} = trim($1);
 		$score->{joint}	= $2 eq "=";
-		$score->{name}	= trim($3);
-		
-		if ($score->{name} =~ /(Bronze|Silver|Gold)$/) {
+		my $name = trim($3);
+		if ($name =~ /(Bronze|Silver|Gold)$/) {
 			$score->{medal} = $1;
-			$score->{name} =~ s/\s+(Bronze|Silver|Gold)$//;
+			$name =~ s/\s+(Bronze|Silver|Gold)$//;
 		}
+		$score->{name}	= [$name];
 	}
 	else {
 		$score->{type} = "unknown";
@@ -125,15 +123,17 @@ sub print_competition
 		print "<tr onClick='javascript:ClickedThis(this)' class='", $score->{medal}, "'>";
 		print "<td>", $score->{position}, $score->{joint} ? "=" : "", "</td>";			
 		
-		print "<td>", $score->{name}, "</td>";
+		if ($score->{type} eq "doubles") {
+			print "<td>", $score->{name}->[0], " </td>";
+			print "<td> ", $score->{scores}->[0], " + ";
+			print $score->{scores}->[1], " </td>";
+			print "<td> ", $score->{name}->[1], "</td>";
+		}
+		else {
+			print "<td>", $score->{name}->[0], "</td>";
+		}
 		if ($score->{type} eq "aggregate") {
 			print "<td>", $score->{components}, " = </td>";
-		}
-		if ($score->{type} eq "doubles") {
-			print "<td>", $score->{name1}, " </td>";
-			print "<td> ", $score->{score1}, " + ";
-			print $score->{score2}, " </td>";
-			print "<td> ", $score->{name2}, "</td>";
 		}
 		print "<td>", $score->{score}, "</td>";
 		print "<td>", defined($score->{nox}) ? $score->{nox}."x" : "", "</td>";
@@ -259,15 +259,17 @@ sub analyse_people
 			if ($score->{type} eq "unknown") {
 				next;
 			}
-			$people->{$score->{name}}->{entries}++;
-			if ($score->{medal} eq "Gold") {
-	 			$people->{$score->{name}}->{golds}++;
-			}
-			if ($score->{medal} eq "Silver") {
-	 			$people->{$score->{name}}->{silvers}++;
-			}
-			if ($score->{medal} eq "Bronze") {
-	 			$people->{$score->{name}}->{bronzes}++;
+			foreach my $name (@{$score->{name}}) {
+				$people->{$name}->{entries}++;
+				if ($score->{medal} eq "Gold") {
+		 			$people->{$name}->{golds}++;
+				}
+				if ($score->{medal} eq "Silver") {
+		 			$people->{$name}->{silvers}++;
+				}
+				if ($score->{medal} eq "Bronze") {
+		 			$people->{$name}->{bronzes}++;
+				}
 			}
 		}
 	}
@@ -298,13 +300,15 @@ sub analyse_enemies
 	foreach my $comp (@$competitions) {
 		my @winners;
 		foreach my $score (@{$comp->{scores}}) {
-			if ($score->{type} eq "unknown" || $score->{type} eq "doubles") {
+			if ($score->{type} eq "unknown") {
 				next;
 			}
 			foreach (@winners) {
-				$people{$_}->{$score->{name}}++;
+				foreach my $name ( @{$score->{name}} ) {
+					$people{$_}->{$name}++;
+				}
 			}
-			push @winners, $score->{name};
+			push @winners, @{$score->{name}};
 		}
 	}
 	return \%people;
@@ -372,18 +376,83 @@ sub analyse_rivalries
 	}
 }
 
+sub get_full_name
+{
+	my $people = shift;
+	my $initial = shift;
+	my $surname = shift;
+	
+	my @poss;
+	foreach (keys %$people) {
+		if (/^($initial)\S+\s+($surname)$/) {
+			push @poss, $_;
+		}
+	}
+	if ((scalar @poss) > 1) {
+		print STDERR "Warning: More than one match for abbreviation '$initial $surname'\n";
+		return $initial . " " . $surname;
+	}
+	elsif ((scalar @poss) < 1) {
+		print STDERR "Warning: No match for abbreviation '$initial $surname'\n";
+		return $initial . " " . $surname;
+	}
+	else {
+		return @poss[0];
+	}
+}
+
+sub get_abbreviation_map
+{
+	my $people = shift;
+	my %abbrmap;
+	
+	foreach (keys %$people) {
+		if (/^(\S)\s+(.*)$/) {
+			$abbrmap{$_} = get_full_name($people, $1, $2);
+		}
+	}
+	return \%abbrmap;
+}
+
+sub fix_abbreviations_in_entries
+{
+	my $competitions = shift;
+	my $abbrmap = shift;
+	
+	foreach my $comp (@$competitions) {
+		foreach my $score (@{$comp->{scores}}) {
+			if ($score->{type} eq "unknown") {
+				next;
+			}
+			my $i=0;
+			foreach my $name (@{$score->{name}}) {
+				if (defined $abbrmap->{$name}) {
+					$score->{name}->[$i] = $abbrmap->{$name};
+				}
+				$i++;
+			}
+		}
+	}
+}
+
 sub main
 {
 	print_file("header.html");
 	
 	my $competitions = parse(\*STDIN);
 	prepare_competitions($competitions);
-	print_scores($competitions);
 	
 	my $people = analyse_people($competitions);
+	
+	my $abbrmap = get_abbreviation_map($people);
+	fix_abbreviations_in_entries($competitions, $abbrmap);
+	
+	$people = analyse_people($competitions);
+	
 	my $enemies = analyse_enemies($competitions);
 	analyse_rivalries($enemies, $people);
 
+	print_scores($competitions);
 	print_people($people);
 	print_big_enemies_table($enemies, $people);
 		
