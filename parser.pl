@@ -34,13 +34,13 @@ sub parse_score
 		$score->{joint}	= $2 eq "=";
 		$score->{name}	= [trim($3)];
 		$score->{components}	= trim($4);
-		$score->{score}	= trim($5);
-		$score->{medal}	= trim($6);
+		$score->{score}	= trim($9);
+		$score->{medal}	= trim($10);
 
 		$score->{components} =~ s/\//\+/g;
 	}
 	elsif (/^(\d+)(=?)\s+(\D+)\s*\((-?\d+)\)\s+\&\s+(\D+)\s+\((-?\d+)\)\s*(-?\d+)((\s+(Bronze|Silver|Gold))?)$/) {
-		$score->{type}	= "doubles";
+		$score->{type}	= "team";
 		$score->{position} = trim($1);
 		$score->{joint}	= $2 eq "=";
 		$score->{name}	= [trim($3), trim($5)];
@@ -49,14 +49,13 @@ sub parse_score
 		$score->{medal}	= trim($8);
 	}
 	elsif (/^(\d+)(=?)\s+(\D+)\s*\((-?\d+)\),\s+(\D+)\s*\((-?\d+)\)\s+\&\s+(\D+)\s+\((-?\d+)\)\s*(-?\d+)((\s+(Bronze|Silver|Gold))?)$/) {
-		$score->{type}	= "doubles";
+		$score->{type}	= "team";
 		$score->{position} = trim($1);
 		$score->{joint}	= $2 eq "=";
 		$score->{name}	= [trim($3), trim($5), trim($7)];
 		$score->{scores}= [trim($4), trim($6), trim($8)];
 		$score->{score}	= trim($9);
 		$score->{medal}	= trim($10);
-		print Dumper($score);
 	}
 	
 	elsif (/^(\d+)(=?)\s+(\D*)$/) {
@@ -71,6 +70,7 @@ sub parse_score
 		$score->{name}	= [$name];
 	}
 	else {
+		print STDERR "Warning: unknown score format: '", $score->{data}, "'\n";
 		$score->{type} = "unknown";
 	};
 	
@@ -121,7 +121,7 @@ sub print_competition
 	print "<p class='entries'>", $comp->{entries}, " Entries</p>";
 	
 	print "<table>";
-	print "<tr><td>Position</td><td>Name</td><td colspan='2'>Score</td><td>Prize</td></tr>";
+#	print "<tr><td>Position</td><td>Name</td><td colspan='2'>Score</td><td>Prize</td></tr>";
 	foreach my $score (@s) {
 		if ($score->{type} eq "unknown") {
 			print "<tr class='unknown'><td colspan='5'>UNKNOWN: ", $score->{data}, "</td></tr>";
@@ -295,7 +295,7 @@ sub print_people
 	my $people = shift;
 	print "<table class='sortable'><tr><th>Name</th><th>Entries</th><th>Golds</th><th>Silvers</th><th>Bronzes</th><th>Biggest Rival</th></tr>";
 	while (my ($name, $value) = each(%$people)) {
-		print "<tr><td>", $name, "</td><td>", $value->{entries}, 
+		print "<tr><td>$name</td><td>", $value->{entries}, 
 			"</td><td>", $value->{golds}, 
 			"</td><td>", $value->{silvers}, 
 			"</td><td>", $value->{bronzes}, 
