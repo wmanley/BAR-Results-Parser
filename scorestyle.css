@@ -52,6 +52,14 @@ td {
 	margin: 0px
 }
 
+.pos {
+	color:	#A0FFA0
+}
+
+.neg {
+	color:	#FFA0A0
+}
+
 .unknown {
 	background-color: #FFA0A0
 }

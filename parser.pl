@@ -52,6 +52,15 @@ sub parse_score
 
 		$score->{components} =~ s/\//\+/g;
 	}
+	elsif (/^(\d+)(=?)\s+(\D*)\s+((\s+(Bronze|Silver|Gold))?)$/) {
+		$score->{type}	= "manvman";
+		$score->{position} = trim($1);
+		$score->{joint}	= $2 eq "=";
+		$score->{name}	= trim($3);
+		$score->{medal}	= trim($4);
+
+		$score->{nox} =~ s/x//;
+	}
 	else {
 		$score->{type} = "unknown";
 	};
@@ -127,7 +136,9 @@ sub print_competition
 		print "<td>", $score->{score}, "</td>";
 		print "<td>", defined($score->{nox}) ? $score->{nox}."x" : "", "</td>";
 		print "<td>", $score->{medal}, "</td>";
-		print_bar_graph($score->{score}, $comp->{minscore}, $comp->{maxscore});
+		if ($score->{type} ne "manvman") {
+			print_bar_graph($score->{score}, $comp->{minscore}, $comp->{maxscore});
+		}
 		print "</tr>\n";
 	}
 	print "</table>";
@@ -271,6 +282,65 @@ sub print_people
 	print "</table>";
 }
 
+sub analyse_enemies
+{
+	my $competitions = shift;
+	my %people;
+	
+	# We do this so $people{will}->{steve} will equal the number of times
+	# will has beaten steve
+	foreach my $comp (@$competitions) {
+		my @winners;
+		foreach my $score (@{$comp->{scores}}) {
+			if ($score->{type} eq "unknown" || $score->{type} eq "doubles") {
+				next;
+			}
+			foreach (@winners) {
+				$people{$_}->{$score->{name}}++;
+			}
+			push @winners, $score->{name};
+		}
+	}
+	return \%people;
+}
+
+sub print_big_enemies_table
+{
+	my $enemies = shift;
+	my $people = shift;
+	my @winners = sort { $people->{$b}->{entries} <=> $people->{$a}->{entries} } keys %$people; 
+	
+	print "<table><tr><td></td>";
+	foreach my $winner (@winners) {
+		print "<th>$winner</th>";
+	}
+	print "</tr>";
+	foreach my $winner (@winners) {
+		print "<tr>";
+		print "<th>$winner</th>";
+		foreach my $loser (@winners) {
+			my $won = $enemies->{$winner}->{$loser};
+			my $lost = $enemies->{$loser}->{$winner};
+			if (($won + $lost) == 0) {
+				print "<td></td>";
+				next;
+			}
+			if ($won > $lost) {
+				print "<td class='pos'>+";
+			}
+			elsif ($lost > $won) {
+				print "<td class='neg'>";
+			}
+			else {
+				print "<td>";
+			}
+			print $won-$lost, "/", $won+$lost, "</td>";
+		};
+		print "</tr>";
+	}
+	print "</table>";
+}
+
 sub main
 {
 	print_file("header.html");
@@ -281,6 +351,10 @@ sub main
 	
 	my $people = analyse_people($competitions);
 	print_people($people);
+	
+	my $enemies = analyse_enemies($competitions);
+	print_big_enemies_table($enemies, $people);
+	
 	print "</body></html>";
 };
 
