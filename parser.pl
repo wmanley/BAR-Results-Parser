@@ -16,17 +16,15 @@ sub parse_score
 	$_ = @_[0];
 	my $score = {	data	=>	trim($_)};
 
-	if (/^\s*(\d+)(=?)\s+(\D*)\s+(-?\d+\.?\d*|No score)(\s+\d+x)?((\s+(Bronze|Silver|Gold))?)\s*$/) {
+	if (/^\s*(\d+)(=?)\s+(\D*)\s+(-?\d+\.?\d*|No score)(\s+\d+x)?(\s+\(\d+\))?((\s+(Bronze|Silver|Gold))?)\s*$/) {
 
 		$score->{type}	= "standard";
 		$score->{position} = trim($1);
 		$score->{joint}	= $2 eq "=";
 		$score->{name}	= [trim($3)];
 		$score->{score}	= trim($4);
-		$score->{nox}	= trim($5);
-		$score->{medal}	= trim($6);
-
-		$score->{nox} =~ s/x//;
+		$score->{nox}	= trim($5) . trim($6);
+		$score->{medal}	= trim($7);
 	}
 	elsif (/^(\d+)(=?)\s+(\D*)\s+((\d+|-)\s*\/\s*(\d+|-)\s*\/\s*(\d+|-)\s*\/\s*(\d+|-))\s*\/\s*(\d+)((\s+(Bronze|Silver|Gold))?)$/) {
 		$score->{type}	= "aggregate";
@@ -39,14 +37,15 @@ sub parse_score
 
 		$score->{components} =~ s/\//\+/g;
 	}
-	elsif (/^(\d+)(=?)\s+(\D+)\s*\((-?\d+)\)\s+\&\s+(\D+)\s+\((-?\d+)\)\s*(-?\d+)((\s+(Bronze|Silver|Gold))?)$/) {
+	elsif (/^(\d+)(=?)\s+(\D+)\s*\((-?\d+)\)\s+\&\s+(\D+)\s+\((-?\d+)\)\s*(-?\d+)(\s+\(Age \d+\))?((\s+(Bronze|Silver|Gold))?)$/) {
 		$score->{type}	= "team";
 		$score->{position} = trim($1);
 		$score->{joint}	= $2 eq "=";
 		$score->{name}	= [trim($3), trim($5)];
 		$score->{scores}	= [trim($4), trim($6)];
 		$score->{score}	= trim($7);
-		$score->{medal}	= trim($8);
+		$score->{nox} = trim($8);
+		$score->{medal}	= trim($9);
 	}
 	elsif (/^(\d+)(=?)\s+(\D+)\s*\((-?\d+)\),\s+(\D+)\s*\((-?\d+)\)\s+\&\s+(\D+)\s+\((-?\d+)\)\s*(-?\d+)((\s+(Bronze|Silver|Gold))?)$/) {
 		$score->{type}	= "team";
@@ -121,7 +120,27 @@ sub print_competition
 	print "<p class='entries'>", $comp->{entries}, " Entries</p>";
 	
 	print "<table>";
-#	print "<tr><td>Position</td><td>Name</td><td colspan='2'>Score</td><td>Prize</td></tr>";
+	print "<col class='position' />";
+	if (scalar @{s[0]->{name}} == 2) {
+		print "<col class='personname'/>";
+		print "<col class='scores'/>";
+		print "<col class='personname'/>";
+	}
+	elsif (scalar @{s[0]->{name}} == 3) {
+		print "<col class='3scores'/>";
+	}
+	else {
+		print "<col class='personname'/>";
+	}
+	
+	if ($comp->{type} eq "aggregate") {
+		print "<col class='components'/>";
+	}
+	print "<col class='score'/>";
+	print "<col class='nox'/>";
+	print "<col class='medal'/>";
+	print "<col class='bargraph'/>";
+	
 	foreach my $score (@s) {
 		if ($score->{type} eq "unknown") {
 			print "<tr class='unknown'><td colspan='5'>UNKNOWN: ", $score->{data}, "</td></tr>";
@@ -129,28 +148,28 @@ sub print_competition
 			
 		}
 		
-		print "<tr onClick='javascript:ClickedThis(this)' class='", $score->{medal}, "'>";
+		print "<tr onclick='javascript:ClickedThis(this)' class='", $score->{medal}, "'>";
 		print "<td>", $score->{position}, $score->{joint} ? "=" : "", "</td>";			
 		
 		if (scalar @{$score->{name}} == 2) {
-			print "<td>", $score->{name}->[0], " </td>";
-			print "<td> ", $score->{scores}->[0], " + ";
+			print "<td class='personname1'>", $score->{name}->[0], " </td>";
+			print "<td class='scores'> ", $score->{scores}->[0], " + ";
 			print $score->{scores}->[1], " </td>";
-			print "<td> ", $score->{name}->[1], "</td>";
+			print "<td class='personname2'> ", $score->{name}->[1], "</td>";
 		}
 		elsif (scalar @{$score->{name}} == 3) {
-			print "<td>", $score->{name}->[0], " (", $score->{scores}->[0], "), ";
-			print $score->{name}->[1], " (", $score->{scores}->[1], ") & ";
+			print "<td class='threescores'>", $score->{name}->[0], " (", $score->{scores}->[0], "), ";
+			print $score->{name}->[1], " (", $score->{scores}->[1], ") &amp; ";
 			print $score->{name}->[2], " (", $score->{scores}->[2], ")</td>";
 		}
 		else {
 			print "<td>", $score->{name}->[0], "</td>";
 		}
 		if ($score->{type} eq "aggregate") {
-			print "<td>", $score->{components}, " = </td>";
+			print "<td class='components'>", $score->{components}, " = </td>";
 		}
-		print "<td>", $score->{score}, "</td>";
-		print "<td>", defined($score->{nox}) ? $score->{nox}."x" : "", "</td>";
+		print "<td class='score'>", $score->{score}, "</td>";
+		print "<td>", defined($score->{nox}) ? $score->{nox} : "", "</td>";
 		print "<td>", $score->{medal}, "</td>";
 		if ($score->{type} ne "manvman") {
 			print_bar_graph($score->{score}, $comp->{minscore}, $comp->{maxscore});
@@ -293,12 +312,12 @@ sub analyse_people
 sub print_people
 {
 	my $people = shift;
-	print "<table class='sortable'><tr><th>Name</th><th>Entries</th><th>Golds</th><th>Silvers</th><th>Bronzes</th><th>Biggest Rival</th></tr>";
+	print "<table class='sortable'><col class='personname'/><col class='Entries score'/><col class='Gold score'/><col class='Silver score'/><col class='Bronze score'/><col class='rival'/><tr><th>Name</th><th>Entries</th><th>Golds</th><th>Silvers</th><th>Bronzes</th><th>Biggest Rival</th></tr>";
 	while (my ($name, $value) = each(%$people)) {
-		print "<tr><td>$name</td><td>", $value->{entries}, 
-			"</td><td>", $value->{golds}, 
-			"</td><td>", $value->{silvers}, 
-			"</td><td>", $value->{bronzes}, 
+		print "<tr><td>$name</td><td class='score'>", $value->{entries}, 
+			"</td><td class='score'>", $value->{golds}, 
+			"</td><td class='score'>", $value->{silvers}, 
+			"</td><td class='score'>", $value->{bronzes}, 
 			"</td><td>", $value->{rival}, " (", $value->{rival_diff}, "/", $value->{rival_matches}, ")</td></tr>\n";
 	}
 	print "</table>";
@@ -320,6 +339,9 @@ sub analyse_enemies
 			foreach (@winners) {
 				foreach my $name ( @{$score->{name}} ) {
 					$people{$_}->{$name}++;
+					if ($_ eq $name) {
+						print STDERR "$_ listed twice in competition ", $comp->{name}, "\n";
+					}
 				}
 			}
 			push @winners, @{$score->{name}};
@@ -414,11 +436,11 @@ sub get_full_name
 			}
 		}
 		if ((scalar @poss) > 1) {
-			print STDERR "\tAmbiguous.\n";
+			print STDERR "\tFail: Ambiguous.\n";
 			return $initial . " " . $surname;
 		}
 		elsif ((scalar @poss) < 1) {
-			print STDERR "\tStill no match.\n";
+			print STDERR "\tFail: Still no match.\n";
 			return $initial . " " . $surname;
 		}
 		else {
@@ -483,8 +505,9 @@ sub main
 	analyse_rivalries($enemies, $people);
 
 	print_scores($competitions);
+	print "<h1>Per-person summary</h1>\n<p>Note: you can click the table headings for different sortings</p>";
 	print_people($people);
-	print_big_enemies_table($enemies, $people);
+#	print_big_enemies_table($enemies, $people);
 		
 	print "</body></html>";
 };
