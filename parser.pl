@@ -189,6 +189,18 @@ sub print_scores
 	}
 }
 
+sub get_mean_score
+{
+	my $comp = shift;
+	my $n = 0;
+	my $total = 0;
+	foreach my $score (@{$comp->{scores}}) {
+		$n++;
+		$total += $score->{score}
+	}
+	return $total/$n;
+}
+
 # Extracts information about competitions by looking at the results
 sub prepare_competitions
 {
@@ -201,7 +213,8 @@ sub prepare_competitions
 
 		$comp->{type} = $comp->{scores}->[0]->{type};		
 		$comp->{maxscore} = $comp->{scores}->[0]->{score};
-		$comp->{minscore} = $comp->{scores}->[(scalar @{$comp->{scores}}) - 1]->{score};		
+		$comp->{minscore} = $comp->{scores}->[(scalar @{$comp->{scores}}) - 1]->{score};
+		$comp->{mean} = get_mean_score($comp);
 
 		# This is required if the last score is "No Score"
 		foreach (@{$comp->{scores}}) {
@@ -503,7 +516,9 @@ sub main
 	
 	my $enemies = analyse_enemies($competitions);
 	analyse_rivalries($enemies, $people);
-
+	
+#	print Dumper($competitions);
+	
 	print_scores($competitions);
 	print "<h1>Per-person summary</h1>\n<p>Note: you can click the table headings for different sortings</p>";
 	print_people($people);
