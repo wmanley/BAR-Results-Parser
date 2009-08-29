@@ -2,6 +2,9 @@
 
 use strict;
 use Data::Dumper;
+use Math::CDF;
+
+my $print_binomials = 0;
 
 sub trim($)
 {
@@ -78,7 +81,7 @@ sub parse_score
 
 sub print_bar_graph
 {
-	my ($score, $minscore, $maxscore) = @_;
+	my ($score, $minscore, $maxscore, $line) = @_;
 	my $barwidth = 300;
 	
 	if ($minscore > $maxscore) {
@@ -96,14 +99,22 @@ sub print_bar_graph
 	}
 	
 	my $m = $barwidth / ($maxscore - $minscore);
-	my $c = $m * -$minscore;
 	
+	print "<td class='neg'>";
+	if ($score < 0) {
+		print "<div class='bar' style='width:", -$m*$score, "px'> </div>";
+	}
+	if ($line < 0 and $print_binomials) {
+		print "<div class='line' style='right:", -$m*$line, "'></div>";
+	}
+	print "</td><td class='pos'>";
 	if ($score > 0) {
-		print "<td class='neg'></td><td class='pos'><div style='width:", $m*$score, "px'> </div></td>";
+		print "<div class='bar' style='width:", $m*$score, "px'> </div>";
 	}
-	else {
-		print "<td class='neg'><div style='width:", -$m*$score, "px'> </div></td><td class='pos'></td>";
+	if ($line > 0 and $print_binomials) {
+		print "<div class='line' style='left:", $m*$line, "'></div>";
 	}
+	print "</td>";
 }
 
 sub print_competition
@@ -141,7 +152,17 @@ sub print_competition
 	print "<col class='medal'/>";
 	print "<col class='bargraph'/>";
 	
+	my $binom_mult = $comp->{maxscore} - $comp->{minscore};
+	my $binom_off = $comp->{minscore};
+	my $binom_n = $comp->{maxscore} - $comp->{minscore};
+	my $binom_p = $comp->{mean};
+	if ($binom_n!=0) {
+		$binom_p = .5;
+	}
+	
+	my $num = $comp->{entries};
 	foreach my $score (@s) {
+		$num--;
 		if ($score->{type} eq "unknown") {
 			print "<tr class='unknown'><td colspan='5'>UNKNOWN: ", $score->{data}, "</td></tr>";
 			next;
@@ -172,7 +193,8 @@ sub print_competition
 		print "<td>", defined($score->{nox}) ? $score->{nox} : "", "</td>";
 		print "<td>", $score->{medal}, "</td>";
 		if ($score->{type} ne "manvman") {
-			print_bar_graph($score->{score}, $comp->{minscore}, $comp->{maxscore});
+			my $binom_x = $num/$comp->{entries} * $binom_n;
+			print_bar_graph($score->{score}, $comp->{minscore}, $comp->{maxscore}, $binom_mult*Math::CDF::pbinom($binom_x, $binom_n, $binom_p) + $binom_off);
 		}
 		print "</tr>\n";
 	}
