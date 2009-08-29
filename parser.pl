@@ -5,6 +5,7 @@ use Data::Dumper;
 use Math::CDF;
 
 my $print_binomials = 0;
+my $print_vlscore = 1;
 
 sub trim($)
 {
@@ -341,19 +342,37 @@ sub analyse_people
 			}
 		}
 	}
+	foreach my $person (values %$people)
+	{
+		$person->{vlscore} = $person->{golds} * 5 + $person->{silvers} * 3 + $person->{bronzes};
+	}
 	return $people;
 }
 
 sub print_people
 {
 	my $people = shift;
-	print "<table class='sortable'><col class='personname'/><col class='Entries score'/><col class='Gold score'/><col class='Silver score'/><col class='Bronze score'/><col class='rival'/><tr><th>Name</th><th>Entries</th><th>Golds</th><th>Silvers</th><th>Bronzes</th><th>Biggest Rival</th></tr>";
-	while (my ($name, $value) = each(%$people)) {
-		print "<tr><td>$name</td><td class='score'>", $value->{entries}, 
-			"</td><td class='score'>", $value->{golds}, 
-			"</td><td class='score'>", $value->{silvers}, 
-			"</td><td class='score'>", $value->{bronzes}, 
-			"</td><td>", $value->{rival}, " (", $value->{rival_diff}, "/", $value->{rival_matches}, ")</td></tr>\n";
+	print "<table class='sortable'><col class='personname'/><col class='Entries score'/><col class='Gold score'/><col class='Silver score'/><col class='Bronze score'/>";
+	if ($print_vlscore){
+		print "<col class='vl score'/>";
+	}
+	print "<col class='rival'/><tr><th>Name</th><th>Entries</th><th>Golds</th><th>Silvers</th><th>Bronzes</th>";
+	if ($print_vlscore)
+	{
+		print "<th>Victor<br/>Ludorum</th>";
+	}
+	print "<th>Biggest Rival</th></tr>";
+	while (my ($name, $value) = each(%$people))
+	{
+		print "<tr><td>$name</td><td class='score'>", $value->{entries}, "</td>",
+			"<td class='score'>", $value->{golds}, "</td>",
+			"<td class='score'>", $value->{silvers}, "</td>",
+			"<td class='score'>", $value->{bronzes}, "</td>";
+		if ($print_vlscore)
+		{
+			print "<td class='score'>", $value->{vlscore}, "</td>";
+		}
+		print "<td>", $value->{rival}, " (", $value->{rival_diff}, "/", $value->{rival_matches}, ")</td></tr>\n";
 	}
 	print "</table>";
 }
