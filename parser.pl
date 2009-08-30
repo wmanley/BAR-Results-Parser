@@ -541,6 +541,37 @@ sub fix_abbreviations_in_entries
 	}
 }
 
+# Prints a digraph in graphviz dot format of how people have beat other people
+sub print_enemies_graph
+{
+	my $enemies = shift;
+	my $people = shift;
+	my @winners = sort { $people->{$b}->{entries} <=> $people->{$a}->{entries} } keys %$people; 
+	
+	print "digraph G {";
+	foreach my $winner (@winners) {
+		foreach my $loser (@winners) {
+			my $won = $enemies->{$winner}->{$loser};
+			my $lost = $enemies->{$loser}->{$winner};
+			
+			my $t = $won + $lost;
+			my $d = $won - $lost;
+			if ($t > 0) 
+			{
+				my $pwon = $d / $t;
+				if ($d > 0 and $d > 5) {
+					my $l = $loser;
+					my $w = $winner;
+					$l =~ s/\s//g;
+					$w =~ s/\s//g;
+					print "$l -> $w ;\n";
+				}
+			}
+		};
+	}
+	print "}\n";
+}
+
 sub main
 {
 	print_file("header.html");
@@ -566,6 +597,7 @@ sub main
 #	print_big_enemies_table($enemies, $people);
 		
 	print "</body></html>";
+#	print_enemies_graph($enemies, $people);
 };
 
 main();
