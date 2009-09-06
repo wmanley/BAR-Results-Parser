@@ -118,7 +118,7 @@ class parser:
 					name = m[2].strip(),
 					prize = "")
 		else:
-			print >> STDERR, "Line ", self.lineno, ": Warning: unknown score format: '", line, "'\n";
+			print >>sys.stderr, "Line ", self.lineno, ": Warning: unknown score format: '", line, "'"
 			return bad_result(self.lineno, line)
 	
 	def parse_score(self, score, nox):

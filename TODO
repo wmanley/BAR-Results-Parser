@@ -3,6 +3,7 @@ Port From Perl:
 - Add calculation of rivalries
 - Add graphviz .dot file creator
 - Parsing and printing of ages
+- Check people aren't listed twice in each competition
 
 New Features:
 - Check people are in order

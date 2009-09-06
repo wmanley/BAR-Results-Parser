@@ -93,6 +93,8 @@ class bad_result(result):
 	def __init__(self, lineno, data):
 		result.__init__(self, 0, 0, "")
 		self.data = data
+	def visit(self, other):
+		other.visit_bad(self)
 
 class competition:
 	def __init__(self):
@@ -120,6 +122,8 @@ class personlister:
 		
 	def visit_manvman(self, res):
 		self.people = [res.name]
-
+	
+	def visit_bad(self, res):
+		self.people = []
 
 

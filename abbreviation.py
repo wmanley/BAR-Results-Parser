@@ -1,5 +1,6 @@
 import re
 import sys
+import result
 
 class mapper:
 	def __init__(self):
@@ -7,10 +8,16 @@ class mapper:
 	
 	def shortern_name(self, name):
 		m = re.match(r'(\w)\w*\s+(\S.*)', name)
-		return m.groups()[0] + " " + m.groups()[1]
+		if m:
+			return m.groups()[0] + " " + m.groups()[1]
+		else:
+			print >>sys.stderr, "Warning: could not parse name '" + name + "'"
+			return name
 	
-	def analyse_result(self, result):
-		result.visit(self)
+	def analyse_result(self, res):
+		p = result.personlister()
+		for i in p.get(res):
+			self.add_name(i)
 	
 	def add_name(self, name):
 		s = self.shortern_name(name)
@@ -23,23 +30,6 @@ class mapper:
 
 		else:
 			self.shorts[s] = [name]
-	
-	def visit_threeteam(self, res):
-		for i in res.competitors:
-			self.add_name(i[0])
-	
-	def visit_twoteam(self, res):
-		for i in res.competitors:
-			self.add_name(i[0])
-	
-	def visit_aggregate(self, res):
-		self.add_name(res.name)
-	
-	def visit_single(self, res):
-		self.add_name(res.name)
-		
-	def visit_manvman(self, res):
-		self.add_name(res.name)
 
 class remapper:
 	def __init__(self, shorts):
