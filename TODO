@@ -1,0 +1,10 @@
+Port From Perl:
+- Add Calculation of Enemies
+- Add calculation of rivalries
+- Add graphviz .dot file creator
+- Parsing and printing of ages
+
+New Features:
+- Check people are in order
+- Cross reference aggregates with other results.
+- Check teams and aggregates add up correctly
