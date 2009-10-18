@@ -97,11 +97,11 @@ class bad_result(result):
 		other.visit_bad(self)
 
 class competition:
-	def __init__(self):
-		self.entries = 0
-		self.name = ""
+	def __init__(self, name = "", ctype="unknown", entries = 0):
+		self.entries = entries
+		self.name = name
 		self.results = []
-		self.type = "unknown"
+		self.type = ctype
 
 class personlister:
 	def get(self, res):

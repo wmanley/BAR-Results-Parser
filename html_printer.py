@@ -27,7 +27,10 @@ class bar_graph_printer:
 				minscore = s
 			if s > maxscore:
 				maxscore = s
-		self.m = self.bar_width / (maxscore - minscore)
+		if maxscore == minscore:
+			self.m = 0
+		else:
+			self.m = self.bar_width / (maxscore - minscore)
 	
 	def print_bar(self, score):
 		s = score_valuer().get(score)
