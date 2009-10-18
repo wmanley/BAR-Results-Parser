@@ -9,3 +9,9 @@ New Features:
 - Check people are in order
 - Cross reference aggregates with other results.
 - Check teams and aggregates add up correctly
+
+Testing:
+- Create html regression tests 
+
+Bugs:
+- Aggregate scores are printed as [321,432,23,776] rather than 321 + 432 + 23 = 776
