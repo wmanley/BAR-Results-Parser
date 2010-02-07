@@ -11,4 +11,8 @@ mkdir output/history_graph_per_comp/
 cp depend/flot/* output/history_graph_per_comp/
 ./src/per-comp-stats.py results/fixedtxt/20*.txt
 
+mkdir output/meeting_attendance_csv/
+./src/meeting_stats.py results/fixedtxt/*.txt > output/meeting_attendance_csv/all.csv
+./src/meeting_stats.py results/fixedtxt/*Autumn*.txt > output/meeting_attendance_csv/autumn.csv
+./src/meeting_stats.py results/fixedtxt/*Spring*.txt > output/meeting_attendance_csv/spring.csv
 
