@@ -43,5 +43,5 @@ def make_html(inname, outstream, title):
 
 title = re.sub(".txt$", "", sys.argv[1])
 title = re.sub("^.*/", "", title)
-outfile = file("results/html/" + title + ".html", "w")
+outfile = file("output/html_results_per_meeting/" + title + ".html", "w")
 make_html(sys.argv[1], outfile, title)

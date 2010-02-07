@@ -66,19 +66,19 @@ def output_appearences(comps):
 	for name,entries in comps.iteritems():
 		print name, ":\t ", entries.appearances
 
+def read_file(filename):
+	f = file(filename, "r")
+	txt = ""
+	for line in f:
+		txt = txt + line
+	f.close()
+	return txt
+
 def output_flot_graph(comps, out):
-	hfile = file("flot_header.html", "r")
-	header = ""
-	for line in hfile:
-		header = header + line
-	hfile.close()
-	ffile = file("flot_footer.html", "r")
-	footer = ""
-	for line in ffile:
-		footer = footer + line
-	ffile.close
+	header = read_file("flot_header.html")
+	footer = read_file("flot_footer.html")
 	for (name,comp) in comps.iteritems():
-		f = file("flot/"+name+".html", "w")
+		f = file("output/history_graph_per_comp/"+name+".html", "w")
 		f.write(header)
 		comp.print_flot_data(f)
 		f.write(footer)

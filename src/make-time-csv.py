@@ -45,10 +45,10 @@ def load(filenames):
 	return (meetings, agg.people)
 
 def output(meetings, people):
-	s = score_getter()
+	s = result.score_getter()
 	meetings.sort()
 	for name,entries in people.iteritems():
-		f = file("out/" + name + ".csv", "w")
+		f = file("output/history_csv_per_person/" + name + ".csv", "w")
 		entries.sort(lambda a, b: cmp(a[1], b[1]) or cmp(a[0], b[0]))
 		for m in meetings:
 			f.write("," + m)
