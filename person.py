@@ -5,7 +5,7 @@ class person:
 	def __init__(self, name):
 		self.name = name
 		self.entries = 0
-		self.prize = {"Bronze": 0, "Silver": 0, "Gold": 0}
+		self.prize = {"Bronze": 0, "Silver": 0, "Gold": 0, "Wine": 0}
 		self.silvers = 0
 	def vlscore(self):
 		return self.prize["Bronze"] + self.prize["Silver"]*3 + self.prize["Gold"]*5

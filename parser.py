@@ -22,11 +22,20 @@ class state_between_competitions:
 class state_awaiting_header:
 	def __init__(self, stater, cname, centries):
 		self.stater = stater
-		self.cname = cname
+		self.parse_compname(cname)
 		self.centries = centries
+	def parse_compname(self, cname):
+		cname = re.sub("\s\s+", " ", cname)
+		m = re.match("(.*)\*", cname)
+		if m:
+			self.cname = m.group(1)
+			self.exceptional = True
+		else:
+			self.cname = cname
+			self.exceptional = False
 	def do_line(self, line):
 		ctype = ""
-		if re.match(r'Position\s+Name\s+Score\s+Medal', line):
+		if re.match(r'Position\s+Name\s+Score(\s+Medal)?', line):
 			ctype="single"
 		elif re.match(r'Position\s+Name\s+Medal', line):
 			ctype="manvman"
@@ -60,10 +69,10 @@ class state_reading_scores:
 		self.stater.add_comp(self.comp)
 	
 	def parse_result(self, line):
-		match_single = re.match(r'\s*(\d+)(=?)\s+(\D*)\s+(-?\d+\.?\d*|No score)(\s+\d+x)?(\s+\(\d+\))?\s*(Bronze|Silver|Gold)?\s*$', line)
-		match_agg = re.match(r'(\d+)(=?)\s+(\D*)\s+((\d+|-)\s*\/\s*(\d+|-)\s*\/\s*(\d+|-)\s*\/\s*(\d+|-))\s*\/\s*(\d+)((\s+(Bronze|Silver|Gold))?)', line)
-		match_twoteam  = re.match(r'(\d+)(=?)\s+(\D+)\s*\((-?\d+)\)\s+\&\s+(\D+)\s+\((-?\d+)\)\s*(-?\d+)(\s+\(Age \d+\))?((\s+(Bronze|Silver|Gold))?)', line)
-		match_threeteam = re.match(r'(\d+)(=?)\s+(\D+)\s*\((-?\d+)\),\s+(\D+)\s*\((-?\d+)\)\s+\&\s+(\D+)\s+\((-?\d+)\)\s*(-?\d+)((\s+(Bronze|Silver|Gold))?)', line)
+		match_single = re.match(r'\s*(\d+)(=?)\s+(\D*)\s+(-?\d+\.?\d*|No score)(\s+\d+x)?(\s+\(\d+\))?\s*(Bronze|Silver|Gold|Wine)?\s*$', line)
+		match_agg = re.match(r'(\d+)(=?)\s+(\D*)\s+((\d+|-)\s*\/\s*(\d+|-)\s*\/\s*(\d+|-)\s*\/\s*(\d+|-))\s*\/\s*(\d+)((\s+(Bronze|Silver|Gold|Wine))?)\s*$', line)
+		match_twoteam  = re.match(r'(\d+)(=?)\s+(\D+)\s*\((-?\d+)\)\s+\&\s+(\D+)\s+\((-?\d+)\)\s*(-?\d+)(\s+\(Age \d+\))?((\s+(Bronze|Silver|Gold|Wine))?)\s*$', line)
+		match_threeteam = re.match(r'(\d+)(=?)\s+(\D+)\s*\((-?\d+)\),\s+(\D+)\s*\((-?\d+)\)\s+\&\s+(\D+)\s+\((-?\d+)\)\s*(-?\d+)((\s+(Bronze|Silver|Gold|Wine))?)\s*$', line)
 		match_manvman = re.match(r'(\d+)(=?)\s+(\D*)', line)
 		res = score()
 		if match_single:
@@ -107,7 +116,7 @@ class state_reading_scores:
 				prize = m[9].strip())
 		elif match_manvman:
 			m = match_manvman.groups()
-			p = re.match(r'(.+)(Bronze|Silver|Gold)', m[2].strip())
+			p = re.match(r'(.+)(Bronze|Silver|Gold|Wine)\s*$', m[2].strip())
 			if p:
 				return manvman_result(
 					pos = int(m[0].strip()),

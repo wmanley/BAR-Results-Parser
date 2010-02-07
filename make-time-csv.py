@@ -23,33 +23,11 @@ class personAggregator:
 				self.people[i] = []
 			self.people[i].append( (self.meeting, self.cname, res) )
 
-class score_getter:
-	def get(self, res):
-		res.visit(self)
-		return self.score
-	
-	def visit_threeteam(self, res):
-		self.score = res.score
-	
-	def visit_twoteam(self, res):
-		self.score = res.score
-	
-	def visit_aggregate(self, res):
-		self.score = res.score
-	
-	def visit_single(self, res):
-		self.score = res.score
-		
-	def visit_manvman(self, res):
-		self.score = result.std_score(res.pos)
-	
-	def visit_bad(self, res):
-		self.score = result.no_score()
-
 def load(filenames):
 	agg = personAggregator()
 	meetings = []
 	for filename in filenames:
+		print >>sys.stderr, "Loading", filename
 		p=parser.parser()
 		f = file(filename, "r")
 		res = p.parse(f)

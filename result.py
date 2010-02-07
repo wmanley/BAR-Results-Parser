@@ -126,4 +126,39 @@ class personlister:
 	def visit_bad(self, res):
 		self.people = []
 
+class score_getter:
+	def get(self, res):
+		res.visit(self)
+		return self.score
+	
+	def visit_threeteam(self, res):
+		self.score = res.score
+	
+	def visit_twoteam(self, res):
+		self.score = res.score
+	
+	def visit_aggregate(self, res):
+		self.score = res.score
+	
+	def visit_single(self, res):
+		self.score = res.score
+		
+	def visit_manvman(self, res):
+		self.score = std_score(res.pos)
+	
+	def visit_bad(self, res):
+		self.score = no_score()
 
+class score_valuer:
+	def get(self, score):
+		score.visit(self)
+		return self.value
+	
+	def visit_std(self, score):
+		self.value = score.score()
+		
+	def visit_time(self, score):
+		self.value = score.time()
+	
+	def visit_none(self, score):
+		self.value = 0

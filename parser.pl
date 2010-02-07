@@ -2,7 +2,7 @@
 
 use strict;
 use Data::Dumper;
-use Math::CDF;
+#use Math::CDF;
 
 my $print_binomials = 0;
 my $print_vlscore = 1;
@@ -20,7 +20,7 @@ sub parse_score
 	$_ = @_[0];
 	my $score = {	data	=>	trim($_)};
 
-	if (/^\s*(\d+)(=?)\s+(\D*)\s+(-?\d+\.?\d*|No score)(\s+\d+x)?(\s+\(\d+\))?((\s+(Bronze|Silver|Gold))?)\s*$/) {
+	if (/^\s*(\d+)(=?)\s+(\D*)\s+(-?\d+\.?\d*|No score)(\s+\(?\d+x\)?)?(\s+\(\d+\))?((\s+(Bronze|Silver|Gold))?)\s*$/) {
 
 		$score->{type}	= "standard";
 		$score->{position} = trim($1);
@@ -30,7 +30,7 @@ sub parse_score
 		$score->{nox}	= trim($5) . trim($6);
 		$score->{medal}	= trim($7);
 	}
-	elsif (/^(\d+)(=?)\s+(\D*)\s+((\d+|-)\s*\/\s*(\d+|-)\s*\/\s*(\d+|-)\s*\/\s*(\d+|-))\s*\/\s*(\d+)((\s+(Bronze|Silver|Gold))?)$/) {
+	elsif (/^(\d+)(=?)\s+(\D*)\s+((\d+|-)\s*\/\s*(\d+|-)\s*\/\s*(\d+|-)\s*\/\s*(\d+|-))\s*\/\s*(\d+)((\s+(Bronze|Silver|Gold))?)\s*$/) {
 		$score->{type}	= "aggregate";
 		$score->{position} = trim($1);
 		$score->{joint}	= $2 eq "=";
@@ -41,7 +41,7 @@ sub parse_score
 
 		$score->{components} =~ s/\//\+/g;
 	}
-	elsif (/^(\d+)(=?)\s+(\D+)\s*\((-?\d+)\)\s+\&\s+(\D+)\s+\((-?\d+)\)\s*(-?\d+)(\s+\(Age \d+\))?((\s+(Bronze|Silver|Gold))?)$/) {
+	elsif (/^(\d+)(=?)\s+(\D+)\s*\((-?\d+)\)\s+\&\s+(\D+)\s+\((-?\d+)\)\s*(-?\d+)(\s+\(Age \d+\))?((\s+(Bronze|Silver|Gold))?)\s*$/) {
 		$score->{type}	= "team";
 		$score->{position} = trim($1);
 		$score->{joint}	= $2 eq "=";
@@ -51,7 +51,7 @@ sub parse_score
 		$score->{nox} = trim($8);
 		$score->{medal}	= trim($9);
 	}
-	elsif (/^(\d+)(=?)\s+(\D+)\s*\((-?\d+)\),\s+(\D+)\s*\((-?\d+)\)\s+\&\s+(\D+)\s+\((-?\d+)\)\s*(-?\d+)((\s+(Bronze|Silver|Gold))?)$/) {
+	elsif (/^(\d+)(=?)\s+(\D+)\s*\((-?\d+)\),\s+(\D+)\s*\((-?\d+)\)\s+\&\s+(\D+)\s+\((-?\d+)\)\s*(-?\d+)((\s+(Bronze|Silver|Gold))?)\s*$/) {
 		$score->{type}	= "team";
 		$score->{position} = trim($1);
 		$score->{joint}	= $2 eq "=";
@@ -61,7 +61,7 @@ sub parse_score
 		$score->{medal}	= trim($10);
 	}
 	
-	elsif (/^(\d+)(=?)\s+(\D*)$/) {
+	elsif (/^(\d+)(=?)\s+(\D*)\s*$/) {
 		$score->{type}	= "manvman";
 		$score->{position} = trim($1);
 		$score->{joint}	= $2 eq "=";
@@ -195,7 +195,7 @@ sub print_competition
 		print "<td>", $score->{medal}, "</td>";
 		if ($score->{type} ne "manvman") {
 			my $binom_x = $num/$comp->{entries} * $binom_n;
-			print_bar_graph($score->{score}, $comp->{minscore}, $comp->{maxscore}, $binom_mult*Math::CDF::pbinom($binom_x, $binom_n, $binom_p) + $binom_off);
+			print_bar_graph($score->{score}, $comp->{minscore}, $comp->{maxscore}, 0); #$binom_mult*Math::CDF::pbinom($binom_x, $binom_n, $binom_p) + $binom_off);
 		}
 		print "</tr>\n";
 	}

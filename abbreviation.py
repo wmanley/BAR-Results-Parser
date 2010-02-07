@@ -7,7 +7,7 @@ class mapper:
 		self.shorts = {}
 	
 	def shortern_name(self, name):
-		m = re.match(r'(\w)\w*\s+(\S.*)', name)
+		m = re.match(r'(\w)[\w-]*\s+(\S.*)', name)
 		if m:
 			return m.groups()[0] + " " + m.groups()[1]
 		else:

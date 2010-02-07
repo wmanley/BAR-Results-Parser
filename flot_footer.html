@@ -1,0 +1,39 @@
+    };
+
+    // insert checkboxes 
+    var choiceContainer = $("#choices");
+    $.each(datasets, function(key, val) {
+        choiceContainer.append('<div class="checkbox"><input type="checkbox" name="' + key +
+                               '" id="id' + key + '">' +
+                               '<label for="id' + key + '">'
+                                + val.label + '</label></div>');
+    });
+    choiceContainer.find("input").click(plotAccordingToChoices);
+
+    
+    function plotAccordingToChoices() {
+        var data = [];
+
+        choiceContainer.find("input:checked").each(function () {
+            var key = $(this).attr("name");
+            if (key && datasets[key])
+                data.push(datasets[key]);
+        });
+
+        if (data.length > 0)
+            $.plot($("#placeholder"), data, {
+                yaxis: { min: 0 },
+                xaxis: { tickDecimals: 0 },
+                points: { show: true },
+                lines: {show: true},
+                legend: {position: "sw"}
+            });
+    }
+    
+
+    plotAccordingToChoices();
+});
+</script>
+
+ </body>
+</html>
