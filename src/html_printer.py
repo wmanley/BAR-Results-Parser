@@ -161,7 +161,7 @@ class printer:
 	
 	def visit_manvman(self, res):
 		print >>self.out, "<td>", res.name, "</td>"
-		self.print_prize(res)
+		self.print_prize(res.prize)
 
 class personlist_printer:
 	def __init__(self, people, victor_ludorum, out):
