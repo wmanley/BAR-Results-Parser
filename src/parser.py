@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 import re
 import sys
 from result import *
@@ -19,11 +17,25 @@ class state_between_competitions:
 	def exit(self):
 		return
 
+# List used to match table headers to types of competition.
+# Note: The order is important.  The regexps are evaluated in order and the
+# first match is used.  Therefore it should go from most specific to most
+# general 
+headers = [
+	("single",    r'Position\s+Name\s+Score(\s+Medal)?'),
+	("manvman",   r'Position\s+Name\s+Medal'),
+	("timed",     r'Position\s+Name\s+Time\s+Medal'),
+	("threeteam", r'Position\s+Threesome\s+Score'),
+	("twoteam",   r'Position\s+Pair\s+Score'),
+	("aggregate", r'Position\s+Name\s+Score\(stages 1/2/3/4/Tot\)\s+Medal')
+]
+
 class state_awaiting_header:
 	def __init__(self, stater, cname, centries):
 		self.stater = stater
 		self.parse_compname(cname)
 		self.centries = centries
+	
 	def parse_compname(self, cname):
 		cname = re.sub("\s\s+", " ", cname)
 		m = re.match("(.*)\*", cname)
@@ -33,21 +45,15 @@ class state_awaiting_header:
 		else:
 			self.cname = cname
 			self.exceptional = False
+	
 	def do_line(self, line):
+		""" Detect what type of table this is based on the header """
 		ctype = ""
-		if re.match(r'Position\s+Name\s+Score(\s+Medal)?', line):
-			ctype="single"
-		elif re.match(r'Position\s+Name\s+Medal', line):
-			ctype="manvman"
-		elif re.match(r'Position\s+Name\s+Time\s+Medal', line):
-			ctype="timed"
-		elif re.match(r'Position\s+Threesome\s+Score', line):
-			ctype="threeteam"
-		elif re.match(r'Position\s+Pair\s+Score', line):
-			ctype="twoteam"
-		elif re.match(r'Position\s+Name\s+Score\(stages 1/2/3/4/Tot\)\s+Medal', line):
-			ctype="aggregate"
-		else:
+		for (name, regex) in headers:
+			if re.match(regex, line):
+				ctype = name
+				break
+		if ctype == "":
 			print >> sys.stderr, "line ", self.stater.lineno, ": Expected table header.  Got '", line, "' instead!"
 			self.stater.enter_state_space()
 		self.stater.enter_state_reading(self.cname, ctype, self.centries)
@@ -148,6 +154,7 @@ class state_reading_scores:
 			x = int(nox.strip("() \t"))
 		return std_score(s, x)
 
+# State machine
 class parser:
 	def __init__(self):
 		self.comps = []
