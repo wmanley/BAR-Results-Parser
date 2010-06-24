@@ -17,18 +17,105 @@ class state_between_competitions:
 	def exit(self):
 		return
 
+def parse_score(score, nox):
+	score = score.strip()
+	s = 0
+	x = 0
+	if score:
+		if score == "No score":
+			return no_score()
+		try:
+			s = int(score)
+		except ValueError:
+			s = float(score)
+	if nox:
+		x = int(nox.strip("() \t"))
+	return std_score(s, x)
+
+
+def build_single(m):
+	nox = ""
+	if m[5]:
+		nox = m[5]
+	return single_result(
+		pos = m[0],
+		joint = (m[1] == "="),
+		name = m[2].strip(),
+		score = parse_score(m[3], nox),
+		prize = m[6])
+
+single = ("single",    r'Position\s+Name\s+Score(\s+Medal)?',
+          r'\s*(\d+)(=?)\s+(\D*)\s+(-?\d+\.?\d*|No score)(\s+\d+x)?(\s+\(\d+\))?\s*(Bronze|Silver|Gold|Wine)?\s*$',
+          build_single)
+
+def build_manvman(m):
+	p = re.match(r'(.+)(Bronze|Silver|Gold|Wine)\s*$', m[2].strip())
+	if p:
+		return manvman_result(
+			pos = int(m[0].strip()),
+			joint = (m[1] == "="),
+			name = p.groups()[0].strip(),
+			prize = p.groups()[1])
+	else:
+		return manvman_result(
+			pos = int(m[0].strip()),
+			joint = (m[1] == "="),
+			name = m[2].strip(),
+			prize = "")
+
+manvman = ("manvman",   r'Position\s+Name\s+Medal',
+           r'(\d+)(=?)\s+(\D*)', build_manvman)
+
+def build_aggregate(m):
+	return aggregate_result(
+		pos = int(m[0].strip()),
+		joint = (m[1] == "="),
+		name = m[2].strip(),
+		scores = m[3].strip().split(" / "),
+		score = std_score(int(m[8].strip())),
+		prize = m[9].strip())
+
+aggregate = ("aggregate", r'Position\s+Name\s+Score\(stages 1/2/3/4/Tot\)\s+Medal',
+             r'(\d+)(=?)\s+(\D*)\s+((\d+|-)\s*\/\s*(\d+|-)\s*\/\s*(\d+|-)\s*\/\s*(\d+|-))\s*\/\s*(\d+)((\s+(Bronze|Silver|Gold|Wine))?)\s*$',
+             build_aggregate)
+
+timed = ("timed",     r'Position\s+Name\s+Time\s+Medal',
+         r'\s*(\d+)(=?)\s+(\D*)\s+(-?\d+\.?\d*|No score)(\s+\d+x)?(\s+\(\d+\))?\s*(Bronze|Silver|Gold|Wine)?\s*$',
+         build_single)
+
+def build_threeteam(m):
+	return threeteam_result(
+		pos = int(m[0]),
+		joint = (m[1] == "="),
+		competitors = [ (m[2].strip(), std_score(int(m[3]))),
+				(m[4].strip(), std_score(int(m[5]))),
+				(m[6].strip(), std_score(int(m[7])))],
+		score = std_score(int(m[8])),
+		prize = m[9].strip())
+
+threeteam = ("threeteam", r'Position\s+Threesome\s+Score', 
+             r'(\d+)(=?)\s+(\D+)\s*\((-?\d+)\),\s+(\D+)\s*\((-?\d+)\)\s+\&\s+(\D+)\s+\((-?\d+)\)\s*(-?\d+)((\s+(Bronze|Silver|Gold|Wine))?)\s*$',
+             build_threeteam)
+
+def build_twoteam(m):
+	return twoteam_result(
+		pos = int(m[0]),
+		joint = (m[1] == "="),
+		competitors = [ (m[2].strip(), std_score(int(m[3].strip()))),
+				(m[4].strip(), std_score(int(m[5].strip())))],
+		score = std_score(int(m[6])),
+		prize = m[9])
+
+twoteam = ("twoteam",   r'Position\s+Pair\s+Score', 
+	r'(\d+)(=?)\s+(\D+)\s*\((-?\d+)\)\s+\&\s+(\D+)\s+\((-?\d+)\)\s*(-?\d+)(\s+\(Age \d+\))?((\s+(Bronze|Silver|Gold|Wine))?)\s*$',
+	build_twoteam)
+
+
 # List used to match table headers to types of competition.
 # Note: The order is important.  The regexps are evaluated in order and the
 # first match is used.  Therefore it should go from most specific to most
 # general 
-headers = [
-	("single",    r'Position\s+Name\s+Score(\s+Medal)?'),
-	("manvman",   r'Position\s+Name\s+Medal'),
-	("timed",     r'Position\s+Name\s+Time\s+Medal'),
-	("threeteam", r'Position\s+Threesome\s+Score'),
-	("twoteam",   r'Position\s+Pair\s+Score'),
-	("aggregate", r'Position\s+Name\s+Score\(stages 1/2/3/4/Tot\)\s+Medal')
-]
+headers = [single, aggregate, twoteam, threeteam, manvman]
 
 class state_awaiting_header:
 	def __init__(self, stater, cname, centries):
@@ -49,8 +136,8 @@ class state_awaiting_header:
 	def do_line(self, line):
 		""" Detect what type of table this is based on the header """
 		ctype = ""
-		for (name, regex) in headers:
-			if re.match(regex, line):
+		for (name, head_regex, result_regex, result_fn) in headers:
+			if re.match(head_regex, line):
 				ctype = name
 				break
 		if ctype == "":
@@ -75,84 +162,13 @@ class state_reading_scores:
 		self.stater.add_comp(self.comp)
 	
 	def parse_result(self, line):
-		match_single = re.match(r'\s*(\d+)(=?)\s+(\D*)\s+(-?\d+\.?\d*|No score)(\s+\d+x)?(\s+\(\d+\))?\s*(Bronze|Silver|Gold|Wine)?\s*$', line)
-		match_agg = re.match(r'(\d+)(=?)\s+(\D*)\s+((\d+|-)\s*\/\s*(\d+|-)\s*\/\s*(\d+|-)\s*\/\s*(\d+|-))\s*\/\s*(\d+)((\s+(Bronze|Silver|Gold|Wine))?)\s*$', line)
-		match_twoteam  = re.match(r'(\d+)(=?)\s+(\D+)\s*\((-?\d+)\)\s+\&\s+(\D+)\s+\((-?\d+)\)\s*(-?\d+)(\s+\(Age \d+\))?((\s+(Bronze|Silver|Gold|Wine))?)\s*$', line)
-		match_threeteam = re.match(r'(\d+)(=?)\s+(\D+)\s*\((-?\d+)\),\s+(\D+)\s*\((-?\d+)\)\s+\&\s+(\D+)\s+\((-?\d+)\)\s*(-?\d+)((\s+(Bronze|Silver|Gold|Wine))?)\s*$', line)
-		match_manvman = re.match(r'(\d+)(=?)\s+(\D*)', line)
-		res = score()
-		if match_single:
-			m = match_single.groups()
-			nox = ""
-			if m[5]:
-				nox = m[5]
-			return single_result(
-				pos = m[0],
-				joint = (m[1] == "="),
-				name = m[2].strip(),
-				score = self.parse_score(m[3], nox),
-				prize = m[6])
-		elif match_agg:
-			m = match_agg.groups()
-			return aggregate_result(
-				pos = int(m[0].strip()),
-				joint = (m[1] == "="),
-				name = m[2].strip(),
-				scores = m[3].strip().split(" / "),
-				score = std_score(int(m[8].strip())),
-				prize = m[9].strip())
-		elif match_twoteam:
-			m = match_twoteam.groups()
-			return twoteam_result(
-				pos = int(m[0]),
-				joint = (m[1] == "="),
-				competitors = [ (m[2].strip(), std_score(int(m[3].strip()))),
-						(m[4].strip(), std_score(int(m[5].strip())))],
-				score = std_score(int(m[6])),
-				prize = m[9])
-		elif match_threeteam:
-			m = match_threeteam.groups()
-			return threeteam_result(
-				pos = int(m[0]),
-				joint = (m[1] == "="),
-				competitors = [ (m[2].strip(), std_score(int(m[3]))),
-						(m[4].strip(), std_score(int(m[5]))),
-						(m[6].strip(), std_score(int(m[7])))],
-				score = std_score(int(m[8])),
-				prize = m[9].strip())
-		elif match_manvman:
-			m = match_manvman.groups()
-			p = re.match(r'(.+)(Bronze|Silver|Gold|Wine)\s*$', m[2].strip())
-			if p:
-				return manvman_result(
-					pos = int(m[0].strip()),
-					joint = (m[1] == "="),
-					name = p.groups()[0].strip(),
-					prize = p.groups()[1])
-			else:
-				return manvman_result(
-					pos = int(m[0].strip()),
-					joint = (m[1] == "="),
-					name = m[2].strip(),
-					prize = "")
-		else:
-			print >>sys.stderr, "Line ", self.stater.lineno, ": Warning: unknown score format: '", line, "'"
-			return bad_result(self.stater.lineno, line)
-	
-	def parse_score(self, score, nox):
-		score = score.strip()
-		s = 0
-		x = 0
-		if score:
-			if score == "No score":
-				return no_score()
-			try:
-				s = int(score)
-			except ValueError:
-				s = float(score)
-		if nox:
-			x = int(nox.strip("() \t"))
-		return std_score(s, x)
+		for (name, head_regex, result_regex, result_fn) in headers:
+			match = re.match(result_regex, line)
+			if match:
+				return result_fn(match.groups())
+		
+		print >>sys.stderr, "Line ", self.stater.lineno, ": Warning: unknown score format: '", line, "'"
+		return bad_result(self.stater.lineno, line)
 
 # State machine
 class parser:
