@@ -163,8 +163,9 @@ class state_reading_scores:
 			people = pl.get(this_result)
 			for i in people:
 				if i in self.people:
-					line_prefix = self.stater.filename + ":" + str(self.stater.lineno) + ": "
-					print >>sys.stderr, line_prefix + "Error: \"" + i + "\" repeated in competition \"" + self.comp.name + "\""
+					print >>sys.stderr, self.stater.filename + ":" + str(self.stater.lineno) + ":"
+					line_prefix = "    Error: "
+					print >>sys.stderr, line_prefix + "\"" + i + "\" repeated in competition \"" + self.comp.name + "\""
 					print >>sys.stderr, " "*len(line_prefix) + "Previously seen on line", str(self.people[i])
 				self.people[i] = self.stater.lineno
 			self.comp.results.append(this_result)
