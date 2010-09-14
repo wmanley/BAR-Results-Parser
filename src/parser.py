@@ -115,7 +115,7 @@ twoteam = ("twoteam",   r'Position\s+Pair\s+Score',
 # Note: The order is important.  The regexps are evaluated in order and the
 # first match is used.  Therefore it should go from most specific to most
 # general 
-headers = [single, aggregate, twoteam, threeteam, manvman]
+headers = [single, timed, aggregate, twoteam, threeteam, manvman]
 
 class state_awaiting_header:
 	def __init__(self, stater, cname, centries):
