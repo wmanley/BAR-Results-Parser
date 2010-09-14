@@ -53,7 +53,7 @@ def load(filenames):
 	for filename in filenames:
 		p=parser.parser()
 		f = file(filename, "r")
-		res = p.parse(f)
+		res = p.parse(f, filename)
 		f.close()
 		m = re.search("(\d+)-(\d+)", filename)
 		date = float(m.groups(1)[0]) + float(m.groups(1)[1])/12

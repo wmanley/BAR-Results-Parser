@@ -30,7 +30,7 @@ def load(filenames):
 		print >>sys.stderr, "Loading", filename
 		p=parser.parser()
 		f = file(filename, "r")
-		res = p.parse(f)
+		res = p.parse(f, filename)
 		f.close()
 		amapper = abbreviation.mapper()
 		for i in res:

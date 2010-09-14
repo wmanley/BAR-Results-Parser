@@ -1,0 +1,6 @@
+#!/bin/bash
+
+../../src/make_html.py input.txt /dev/null > /dev/null 2> actual-stderr.txt
+cmp expected-stderr.txt actual-stderr.txt
+exit $?
+

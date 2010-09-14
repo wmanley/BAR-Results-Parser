@@ -6,20 +6,22 @@ import sys
 import abbreviation
 import person
 import re
+import os
 
-def make_html(inname, outstream, title):
+prefix = os.environ["PREFIX"]
+
+def make_html(instream, outstream, title):
 	p = parser.parser()
 	printer = html_printer.printer(outstream)
 
 	print >>outstream, "<html><head><title>", title, " - British Alpine Rifles</title>"
-	head = file("header.html")
+	head = file(prefix + "/header.html")
 	for i in head:
 		print >>outstream, i
 	print >>outstream, "<h1>", title, " - British Alpine Rifles</h1>"
 	print >>outstream, "<p>Click on a name to have all instances of that name highlighted.</p>"
 
-	m = file(inname, "r")
-	j = p.parse(m)
+	j = p.parse(instream, sys.argv[1])
 
 	amapper = abbreviation.mapper()
 	for i in j:
@@ -41,7 +43,12 @@ def make_html(inname, outstream, title):
 	pp = html_printer.personlist_printer(peo.people.values(), True, outstream)
 	pp.print_people()
 
+if len(sys.argv) != 3:
+	print >>sys.stderr, "Usage ", sys.argv[0], " input-file output-file"
+	sys.exit(1)
+
 title = re.sub(".txt$", "", sys.argv[1])
 title = re.sub("^.*/", "", title)
-outfile = file("output/html_results_per_meeting/" + title + ".html", "w")
-make_html(sys.argv[1], outfile, title)
+outfile = file(sys.argv[2], "w")
+infile = file(sys.argv[1], "r")
+make_html(infile, outfile, title)

@@ -1,0 +1,11 @@
+Scott
+6 Entries
+Position		Name				Score		Medal
+1		Richard Munday			281		Gold
+2		Nick Pollard			273		Silver
+3		Neil Jones			272		Silver
+4		Doug Johnston			271		Bronze
+5		Ted George			269		Bronze
+6		Neil Jones			266		Bronze
+7		Ted George			262		Bronze
+
