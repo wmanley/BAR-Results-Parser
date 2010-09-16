@@ -8,7 +8,7 @@ import person
 import re
 import os
 
-prefix = os.environ["PREFIX"]
+prefix = os.environ["PREFIX"] if "PREFIX" in os.environ else "."
 
 def make_html(instream, outstream, title):
 	p = parser.parser()

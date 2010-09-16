@@ -1,4 +1,6 @@
-#!/bin/sh -e 
+#!/bin/bash -e 
+
+export PREFIX=$(dirname "$0")
 
 mkdir -p output/html_results_per_meeting/
 cp depend/sorttable/sorttable.js output/html_results_per_meeting/
