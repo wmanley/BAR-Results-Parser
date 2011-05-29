@@ -31,6 +31,11 @@ class mapper:
 		else:
 			self.shorts[s] = [name]
 
+def escape_regex(string):
+    string = re.sub(r'\(', r'\(', string)
+    string = re.sub(r'\)', r'\)', string)
+    return string
+
 class remapper:
 	def __init__(self, shorts):
 		self.shorts = shorts
@@ -50,7 +55,7 @@ class remapper:
 	def find_exceptional_name(self, name):
 		print >>sys.stderr, "Could not find abbreviation ", name
 		m = re.match(r'(\w)\w*\s+(\S.*)', name)
-		r = re.compile(r'\w+\s+' + m.groups()[1])
+		r = re.compile(r'\w+\s+' + escape_regex(m.groups()[1]))
 		matches = [j for i in self.shorts.values() for j in i if r.match(j)]
 		if len(matches) == 0:
 			print >>sys.stderr, "\tSearch failed!", name
