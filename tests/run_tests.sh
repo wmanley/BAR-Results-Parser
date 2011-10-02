@@ -1,8 +1,9 @@
 #!/bin/bash
 
 CWD=`pwd`
+TESTS_PREFIX=$(dirname "$0")
 
-for i in */*.test
+for i in ${TESTS_PREFIX}/*/*.test
 do
     cd "$(dirname $i)"
     if "./$(basename $i)" > "$CWD"/output.txt
