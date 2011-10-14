@@ -945,28 +945,28 @@ Position	Name	Score		Medal
 Smith
 22 Entries
 Position	Name	Score		Medal
-1	Will Manley	0.98	41	Gold
-2	Joe Rodgers	0.99	41	Silver
-3	Herb Teachey	1.11	35	Silver
-4	Martin Lewis	1.15	36	Bronze
-5	Graham Mott	1.17	43	Bronze
-6	Nick Pollard	1.17	35	
-7	David Nash	1.24	39	
-8	Ken Hynes	1.25	37	
-9	Ralph Davenport	1.33	41	
+1	Will Manley	0.98	(41)	Gold
+2	Joe Rodgers	0.99	(41)	Silver
+3	Herb Teachey	1.11	(35)	Silver
+4	Martin Lewis	1.15	(36)	Bronze
+5	Graham Mott	1.17	(43)	Bronze
+6	Nick Pollard	1.17	(35)	
+7	David Nash	1.24	(39)	
+8	Ken Hynes	1.25	(37)	
+9	Ralph Davenport	1.33	(41)	
 10	Mike Davenport	1.41		
-11	Keith Pike	1.42	38	
+11	Keith Pike	1.42	(38)	
 12	Tony Garwood	1.63		
-13	John Duff	1.66	38	
-14	Alan Birkbeck	1.66	43	
-15	Debra Nickson	2.05	37	
-16	Robert Baranyai	2.1	43	
-17	Eddie Armson	2.29	36	
-18=	Herb Teachey	No Score		
-18=	Dan Aplin	No Score		
-18=	Bernhard Messerli	No Score		
-18=	Urs Wysser	No Score		
-18=	Dick Craven	No Score		
+13	John Duff	1.66	(38)	
+14	Alan Birkbeck	1.66	(43)	
+15	Debra Nickson	2.05	(37)	
+16	Robert Baranyai	2.1	(43)	
+17	Eddie Armson	2.29	(36)	
+18=	Herb Teachey	No score		
+18=	Dan Aplin	No score		
+18=	Bernhard Messerli	No score		
+18=	Urs Wysser	No score		
+18=	Dick Craven	No score		
 
 Smythe
 2 Entries
