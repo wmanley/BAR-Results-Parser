@@ -1325,12 +1325,123 @@ Position	Pair	Score
 2	Bob Lucas (44) & Colin Reed (25)	69
 3	Neil Jones (32) & Dan Aplin (36)	68
 
+Ball (Aggregate)
+1	Bob Lucas	149	Silver
+2	Ian Grant	147	Bronze
+3	Nicky Munday	145	
+4	Richard Munday	144	
+5	Neil Jones	141	
+6=	Martin Lewis	140	
+6=	Dan Aplin	140	
+8	Phil Kench	136	
+9	Peter Ryder	127	
+10	Colin Reed	125	
 
+Brass Monkeys
+1	Phil Kench	560	
+2	Dick Polk	334	
+3	Martin Lewis	242	
 
+Ezell Aggregate
+1	Martin Lewis	146	Silver
+2	Nicky Munday	140	Bronze
+3	Phil Kench	137	
+4	Richard Munday	130	
+5	Ian Grant	128	
+6	Peter Ryder	124	
+7	Neil Jones	112	
+8	Colin Reed	90	
 
+Ferdinand Piller Ladies Aggregate
+1=	Nicky Munday	463	
 
+Frank Cook Aggregate
+1=	Nicky Munday	415	Gold
+2	Richard Munday	412	Silver
+3	Phil Kench	404	Bronze
+4	Tony Garwood	402	Bronze
+5	Heinrich Harke	399	
+6=	Martin Lewis	393	
+6=	Peter Ryder	393	
+8	David Ramsey	389	
+9	John Duff	383	
+10	Ted George	382	
+11	Neil Jones	368	
+12	Herb Teachey	354	
+13	Dan Aplin	344	
+14	Dick Polk	341	
+15	Colin Reed	340	
+16	Trudy Henry	309	
+17	Bob Lucas	263	
 
+Gisborough Aggregate
+1	Phil Kench	388	Silver
+2	Peter Ryder	381	Bronze
+3	Heinrich Harke	380	
+4	Dick Craven	376	
+5	Richard Munday	367	
+6	Herb Teachey	337	
+7	David Ramsey	327	
+8	John Duff	314	
 
+Hawkins Aggregate
+1	Peter Ryder	763	
+2	Phil Kench	755	
 
+Helvetia (Aggregate)
+1	Martin Lewis	112	Silver
+2	Nicky Munday	109	Bronze
+3	Peter Ryder	107	
+4	Neil Jones	106	
+5	Ian Grant	104	
+6	Phil Kench	103	
+7	Richard Munday	101	
+8	David Nash	96	
+9	David Ramsey	90	
+10	Colin Reed	88	
 
+ISSF Centrefire Aggregate
+1	Phil Kench	537	Silver
+2	Ted George	525	Bronze
+3=	Tony Garwood	522	
+3=	Peter Ryder	522	
+5	John Duff	506	
+6	Heinrich Harke	502	
+7	Herb Teachey	473	
+8	Trudy Henry	414	
+
+ISSF Sport Pistol Aggregate
+1	Peter Ryder	547	Bronze
+2	Dick Craven	535	
+3	John Duff	513	
+4	Herb Teachey	507	
+5	Trudy Henry	455	
+
+Pocket Pistol Aggregate
+1	Richard Munday	242	
+2	Peter Ryder	210	
+
+Service Pistol Aggregate
+1	Dan Aplin	248	Silver
+2	Ted George	242	Bronze
+3=	Dick Craven	236	
+3=	Phil Kench	236	
+5	Peter Ryder	231	
+6	John Duff	230	
+7	Martin Lewis	220	
+8	Neil Jones	201	
+9	David Ramsey	197	
+
+Sigriswil Aggregate
+1	Richard Munday	493	
+2	Phil Kench	481	
+3	Peter Ryder	480	
+
+Stringer Memorial Aggregate
+1	Richard Munday	210	Bronze
+2	Nicky Munday	198	
+3	Peter Ryder	171	
+4	David Nash	151	
+5	Bob Lucas	128	
+6	Colin Reed	120	
 
