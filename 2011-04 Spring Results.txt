@@ -1252,19 +1252,16 @@ Position	Pair	Score
 3	Richard Munday (78) & Armin Landolt (70)	148
 
 Centrefire Pairs
-1 Entry
-Position	Pair	Score
-Peter Ryder & Tony Garwood
+No entries
 
 Churchill Allies
 No entries
 
 Classic Pistol Pairs
-3 Entries
+2 Entries
 Position	Pair	Score
 1	Richard Munday (130) & Nicky Munday (126)	256
-2	Dick Craven (130) & Nick Pollard (114)	144
-3	Peter Ryder (131) & Tony Garwood (-)	131
+2	Dick Craven (130) & Nick Pollard (114)	244
 
 Drei Eidgenossen
 2 Entries
@@ -1273,9 +1270,7 @@ Position	Threesome	Score
 2	Richard Munday (55), Nicky Munday (61) & Heinrich Härke (64)	180
 
 Pocket Pistol Pairs
-1 Entry
-Position	Pair	Score
-1	Peter Ryder & Tony Garwood
+No Entries
 
 Schnellfeuer Pairs
 3 Entries
@@ -1285,11 +1280,10 @@ Position	Pair	Score
 3	Dick Craven (186) & Nick Pollard (164)	350
 
 Service Pistol Pairs
-3 Entries
+2 Entries
 Position	Pair	Score
 1	Richard Munday (93) & Nicky Munday (103)	196
 2	Dick Craven (103) & Nick Pollard (92)	195
-3	Peter Ryder (98) & Tony Garwood (-)	98
 
 Silhouettes Pairs
 3 Entries
@@ -1305,10 +1299,9 @@ Position	Pair	Score
 3	Dick Craven (94) & Nick Pollard (71)	165
 
 Zillertal Pairs
-2 Entries
+1 Entry
 Position	Pair	Score
 1	Dick Craven (176) & Nick Pollard (201)	377
-2	Peter Ryder (-) & Tony Garwood (198)	198
 
 Elcho Pairs
 4 Entries
