@@ -436,6 +436,37 @@ Position	Name	Score		Medal
 24	Robert Baranyai	130		
 25	Joe Rodgers	106		
 
+Greenwood			
+27 Entries
+Position	Name	Score		Medal
+1	Ted George	92	Gold
+2	Richard Munday	91	Silver
+3=	Alan Birkbeck	90	Silver
+3=	Martin Lewis	90	Silver
+3=	Phil Kench	90	Silver
+3=	Dan Aplin	90	Silver
+7	Nick Pollard	89	
+8=	Mike Davenport	87	
+8=	Nicky Munday	87	
+10	Tony Garwood	84	
+11	Dick Craven	82	
+12=	Dick Polk	81	
+12=	Keith Pike	81	
+14	Ian Grant	80	
+15=	David Nash	79	
+15=	Will Manley	79	
+17	David Ramsey	78	
+18	John Duff	77	
+19	Graham Mott	75	
+20	Neil Jones	71	
+21	Joe Rodgers	70	
+22	Bernhard Messerli	62	
+23	Emile De Maria	50	
+24	Ralph Davenport	40	
+25	Herb Teachey	27	
+26	Debra Nickson	5	
+27	Colin Reed	0	
+
 Harmsworth
 5 Entries
 Position	Name	Score		Medal
