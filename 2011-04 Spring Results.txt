@@ -359,38 +359,6 @@ Forbes
 Position	Name	Score		Medal
 1=	Mike Davenport	40		
 
-Freundschaftsschtiessen
-28 Entries
-Position	Name	Score		Medal
-1=	Nicky Munday	94		Gold
-2	Phil Kench	93		Silver
-3=	Tony Garwood	92		Silver
-3=	Herb Teachey	92		Silver
-5	Richard Munday	91		Bronze
-6	John Duff	90		Bronze
-7	David Ramsey	87		
-8	Peter Stettler	85		
-9	Ted George	84		
-10=	Dick Polk	81		
-10=	Will Manley	81		
-10=	Dick Craven	81		
-13	Joe Rodgers	79		
-14	Robert Baranyai	75		
-15	David Nash	74		
-16	Graham Mott	72		
-17	Dan Aplin	71		
-18=	Neil Jones	67		
-18=	Nick Pollard	67		
-18=	Doug Johnston	67		
-21	Colin Reed	62		
-22=	Ralph Davenport	58		
-22=	Mike Davenport	58		
-24	Emile De Maria	44		
-25	Emile De Maria	39		
-26	Bob Lucas	35		
-27	Debra Nickson	34		
-28	Alan Birkbeck	23		
-
 Gasser
 25 Entries
 Position	Name	Score		Medal
