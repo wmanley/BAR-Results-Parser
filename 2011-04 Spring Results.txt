@@ -962,11 +962,11 @@ Position	Name	Score		Medal
 15	Debra Nickson	2.05	37	
 16	Robert Baranyai	2.1	43	
 17	Eddie Armson	2.29	36	
-18=	Herb Teachey	N/S		
-18=	Dan Aplin	N/S		
-18=	Bernhard Messerli	N/S		
-18=	Urs Wysser	N/S		
-18=	Dick Craven	N/S		
+18=	Herb Teachey	No Score		
+18=	Dan Aplin	No Score		
+18=	Bernhard Messerli	No Score		
+18=	Urs Wysser	No Score		
+18=	Dick Craven	No Score		
 
 Smythe
 2 Entries
