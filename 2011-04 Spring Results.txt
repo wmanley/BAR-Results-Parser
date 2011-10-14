@@ -1028,10 +1028,10 @@ Position	Name	Score		Medal
 Thomas
 34 Entries
 Position	Name	Score		Medal
-1=	John Duff	23		Gold
-1=	Martin Lewis	23		Gold
-1=	Dick Craven	23		Gold
-1=	Dick Polk	23		Gold
+1	John Duff	23		Gold
+2=	Martin Lewis	23		Silver
+2=	Dick Craven	23		Silver
+2=	Dick Polk	23		Sliver
 5=	Richard Munday	22		Bronze
 5=	David Nash	22		Bronze
 7=	Armin Landholt	21		
