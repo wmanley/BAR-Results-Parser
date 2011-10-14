@@ -186,31 +186,31 @@ Position	Name	Score		Medal
 2	Phil Kench	115		Silver
 3	Richard Munday	112		Silver
 4	Peter Mooser	104		Bronze
-5	Nicky Munday	101		Bronze
-6	Dick Craven	94		Bronze
-7	Mike Davenport	90		
-8	Ian Grant	88		
-9	Peter Ryder	87		
-10	Neil Jones	85		
-11=	Will Manley	81		
-11=	Peter Stettler	81		
-13	Joe Rodgers	80		
-14=	David Ramsey	79		
-14=	Dick Horrocks	79		
-14=	David Nash	79		
-17	Dan Aplin	77		
-18	Debra Nickson	76		
-19	Nick Pollard	71		
-20	Ted George	70		
-21	Graham Mott	69		
-22	Ernst Stager	66		
-23	Ralph Davenport	55		
-24	Ken Hynes	54		
-25	Dick Polk	45		
-26	Colin Reed	37		
-27	Alan Birkbeck	27		
-28	Bob Lucas	23		
-29	Martin Lewis	10		
+5	Martin Lewis	103		Bronze
+6	Nicky Munday	101		Bronze
+7	Dick Craven	94		
+8	Mike Davenport	90		
+9	Ian Grant	88		
+10	Peter Ryder	87		
+11	Neil Jones	85		
+12=	Will Manley	81		
+12=	Peter Stettler	81		
+14	Joe Rodgers	80		
+15=	David Ramsey	79		
+15=	Dick Horrocks	79		
+15=	David Nash	79		
+18	Dan Aplin	77		
+19	Debra Nickson	76		
+20	Nick Pollard	71		
+21	Ted George	70		
+22	Graham Mott	69		
+23	Ernst Stager	66		
+24	Ralph Davenport	55		
+25	Ken Hynes	54		
+26	Dick Polk	45		
+27	Colin Reed	37		
+28	Alan Birkbeck	27		
+29	Bob Lucas	23		
 30	Robert Baranyai	-2		
 31	John Millar	-13		
 
