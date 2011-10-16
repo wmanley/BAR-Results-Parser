@@ -1244,17 +1244,21 @@ Position	Name	Score		Medal
 2	Herb Teachey	97		
 
 Advancing Men Pairs
-3 Entries
+4 Entries
 Position	Pair	Score
 1	Dick Craven (81) & Nick Pollard (78)	159
 2	Peter Ryder (79) & Tony Garwood (75)	154
-3	Richard Munday (78) & Armin Landolt (70)	148
+3=	Richard Munday (78) & Armin Landolt (70)	148
+3=	Phil Kench (76) & Heinrich Harke (72)	148
 
 Centrefire Pairs
 No entries
 
 Churchill Allies
-No entries
+2 Entries
+Position	Pair	Score
+1	Nicky Monday (15) & Phil Kench (33)	48
+2	Dan Aplin (26) & Neil Jones (-31)	-5
 
 Classic Pistol Pairs
 2 Entries
@@ -1263,59 +1267,79 @@ Position	Pair	Score
 2	Dick Craven (130) & Nick Pollard (114)	244
 
 Drei Eidgenossen
-2 Entries
+4 Entries
 Position	Threesome	Score
 1	Peter Ryder (64), Tony Garwood (70) & Herb Teachey (58)	192
 2	Richard Munday (55), Nicky Munday (61) & Heinrich Härke (64)	180
+3=	Neil Jones (63), Dan Aplin (55) & Ted George (57)	175
+3=	Phil Kench (61), Ian Grant (55) & Will Manley (59)	175
 
 Pocket Pistol Pairs
 No Entries
 
-Schnellfeuer Pairs
+Police Pistol Pairs
 3 Entries
 Position	Pair	Score
-1	Richard Munday (195) & Nicky Munday (183)	378
-2	Peter Ryder (185) & Tony Garwood (192)	377
-3	Dick Craven (186) & Nick Pollard (164)	350
+1	Peter Ryder (290) & Tony Garwood (294)	584
+2	Phil Kench (282) & Martin Lewis (292)	574
+3	Dick Craven (284) & Nick Pollard (277)	561
+
+Schnellfeuer Pairs
+4 Entries
+Position	Pair	Score
+1	Heinrich Harke (191) & Phil Kench (189)	380
+2	Richard Munday (195) & Nicky Munday (183)	378
+3	Peter Ryder (185) & Tony Garwood (192)	377
+4	Dick Craven (186) & Nick Pollard (164)	350
 
 Service Pistol Pairs
-2 Entries
+5 Entries
 Position	Pair	Score
-1	Richard Munday (93) & Nicky Munday (103)	196
-2	Dick Craven (103) & Nick Pollard (92)	195
+1	Dan Aplin (110) & Ted George (109)	219
+2	Martin Lewis (109) & Heinrich Harke (108)	217
+3	Richard Munday (93) & Nicky Munday (103)	196
+4	Dick Craven (103) & Nick Pollard (92)	195
+5	Phil Kench (97) & Ian Grant (91)	188
 
 Silhouettes Pairs
-3 Entries
+4 Entries
 Position	Pair	Score
 1	Peter Ryder (283) & Tony Garwood (285)	568
-2	Dick Craven (273) & Nick Pollard (237)	510
+2	Richard Munday (274) & Heinrich Harke (272)	546
+3	Phil Kench (284) & Will Manley (237)	521
+4	Dick Craven (273) & Nick Pollard (237)	510
 
 Surrenden Pairs
-3 Entries
+5 Entries
 Position	Pair	Score
 1	Richard Munday (112) & Nicky Munday (101)	213
 2	Peter Ryder (87) & Tony Garwood (124)	211
-3	Dick Craven (94) & Nick Pollard (71)	165
+3	Phil Kench (115) & Ian Grant (88)	203
+4	Dick Craven (94) & Nick Pollard (71)	165
+5	Neil Jones (85) & Ted George (70)	155
 
 Zillertal Pairs
-1 Entry
+2 Entries
 Position	Pair	Score
-1	Dick Craven (176) & Nick Pollard (201)	377
+1	Richard Munday (201) & Phil Kench (181)	382
+2	Dick Craven (176) & Nick Pollard (201)	377
 
 Elcho Pairs
-4 Entries
+5 Entries
 Position	Pair	Score
 1	Richard Munday (46) & Nicky Munday (48)	94
-2	Peter Ryder (43) & Tony Garwood (46)	89
-3	Neil Jones (43) & Dan Aplin (44)	87
-4	Bob Lucas (44) & Colin Reed (42)	86
+2	Ian Grant (49) & Phil Kench (42)	91
+3	Peter Ryder (43) & Tony Garwood (46)	89
+4	Neil Jones (43) & Dan Aplin (44)	87
+5	Bob Lucas (44) & Colin Reed (42)	86
 
 McMahon Pairs
-3 Entries
+4 Entries
 Position	Pair	Score
-1	Richard Munday (37) & Nicky Munday (37)	74
-2	Bob Lucas (44) & Colin Reed (25)	69
-3	Neil Jones (32) & Dan Aplin (36)	68
+1	Phil Kench (40) & Ian Grant (37)	77
+2	Richard Munday (37) & Nicky Munday (37)	74
+3	Bob Lucas (44) & Colin Reed (25)	69
+4	Neil Jones (32) & Dan Aplin (36)	68
 
 Ball (Aggregate)
 10 Entries
