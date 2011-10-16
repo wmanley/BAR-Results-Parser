@@ -948,16 +948,16 @@ Position	Name	Score		Medal
 2	Joe Rodgers	0.99	(41)	Silver
 3	Herb Teachey	1.11	(35)	Silver
 4	Martin Lewis	1.15	(36)	Bronze
-5	Graham Mott	1.17	(43)	Bronze
-6	Nick Pollard	1.17	(35)	
+5	Nick Pollard	1.17	(43)	Bronze
+6	Graham Mott	1.17	(35)	
 7	David Nash	1.24	(39)	
 8	Ken Hynes	1.25	(37)	
 9	Ralph Davenport	1.33	(41)	
 10	Mike Davenport	1.41		
 11	Keith Pike	1.42	(38)	
 12	Tony Garwood	1.63		
-13	John Duff	1.66	(38)	
-14	Alan Birkbeck	1.66	(43)	
+13	Alan Birkbeck	1.66	(43)	
+14	John Duff	1.66	(38)	
 15	Debra Nickson	2.05	(37)	
 16	Robert Baranyai	2.1	(43)	
 17	Eddie Armson	2.29	(36)	
