@@ -10,60 +10,42 @@ class printer:
 			self.print_result(res)
 	
 	def header(self, comp):
-		print >>self.out, comp.name, "\n", comp.entries, " Entries"
-		if comp.type=="single":
-			print "Position\tName\tScore\tMedal"
-		elif comp.type=="timed":
-			print "Position\tName\tTime\tMedal"
-		elif comp.type=="threeteam":
-			print "Position\tThreesome\tScore"
-		elif comp.type=="twoteam":
-			print "Position\tPair\tScore"
-		elif comp.type=="aggregate":
-			print "Position\tName\tScore(stages 1/2/3/4/Tot)\tMedal"
+		headings = {
+			"single":    "Position\tName\tScore\tMedal",
+			"timed":     "Position\tName\tTime\tMedal",
+			"threeteam": "Position\tThreesome\tScore",
+			"twoteam":   "Position\tPair\tScore",
+			"aggregate": "Position\tName\tScore(stages 1/2/3/4/Tot)\tMedal"
+		}
+		self.out.write("%s\n%d Entries\n%s\n" % (comp.name, comp.entries, headings.get(comp.type)))
 	
 	def print_result(self, res):
 		self.print_pos(res)
 		res.visit(self)
 		self.print_prize(res)
-		print
+		self.out.write("\n")
 	
 	def print_pos(self, res):
-		self.out.write(str(res.pos))
-		if res.joint:
-			print "=",
-		print "\t",
+		self.out.write("%s%s\t" % (res.pos, "=" if res.joint else ""))
 	
 	def print_prize(self, res):
 		if res.prize:
-			print >>self.out, "\t", res.prize,
+			self.out.write("\t" + res.prize)
 	
-	def print_competitor(self, c):
-		self.out.write(c[0] + " ("+str(c[1])+")")
-
 	def visit_threeteam(self, res):
-		self.print_competitor(res.competitors[0])
-		print >>self.out, ", ",
-		self.print_competitor(res.competitors[1])
-		print >>self.out, " & ",
-		self.print_competitor(res.competitors[2])
-		print "\t", str(res.score), 
+		c = res.competitors
+		self.out.write("%s (%s), %s (%s) & %s (%s)\t%s" % (c[0][0], str(c[0][1]), c[1][0], str(c[1][1]), c[2][0], str(c[2][1]), str(res.score)))
 	
 	def visit_twoteam(self, res):
-		self.print_competitor(res.competitors[0])
-		print " & ",
-		self.print_competitor(res.competitors[1])
-		print "\t", str(res.score),
+		c = res.competitors
+		self.out.write("%s (%s) & %s (%s)	%s" % (c[0][0], c[0][1], c[1][0], c[1][1], str(res.score)))
 	
 	def visit_aggregate(self, res):
-		print >>self.out, res.name, "\t", 
-		for i in res.scores:
-			print >>self.out, i, "/",
-		print res.score,
+		self.out.write("%s\t%s/%s" % (res.name, "/".join(res.scores), str(res.score)))
 
 	def visit_single(self, res):
-		print >>self.out, res.name, "\t", res.score, 
+		self.out.write("%s\t%s" % (res.name, str(res.score)))
 
 	def visit_manvman(self, res):
-		print >>self.out, res.name,
+		self.out.write(res.name)
 
