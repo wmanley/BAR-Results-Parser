@@ -2,17 +2,18 @@
 
 import parser
 import jim_printer
+import jim_html_printer
 import sys
 import abbreviation
 import person
 import re
 import os
+from optparse import OptionParser
 
 prefix = os.environ["PREFIX"] if "PREFIX" in os.environ else "."
 
-def make_jim(instream, outstream, title):
+def make_jim(instream, printer, title):
 	p = parser.parser()
-	printer = jim_printer.printer(outstream)
 
 	j = p.parse(instream, sys.argv[1])
 
@@ -29,20 +30,24 @@ def make_jim(instream, outstream, title):
 
 	for i in j:
 		printer.print_comp(i)
-		print >>outstream, "\n"
 
 def main(argv):
-	if len(argv) != 3:
-		print >>sys.stderr, "Usage ", argv[0], " input-file output-file"
-		return 1
-
-	(input_filename, output_filename) = argv[1:]
+	op = OptionParser()
+	op.add_option("-f", "--format", dest="format", choices=["txt", "html"], default="txt")
+	(options, (input_filename, output_filename)) = op.parse_args(argv[1:])
 
 	title = re.sub(".txt$", "", input_filename)
 	title = re.sub("^.*/", "", title)
 	outfile = file(output_filename, "w")
 	infile = file(input_filename, "r")
-	make_jim(infile, outfile, title)
+
+	if options.format == "html":
+		printer = jim_html_printer.printer(outfile)
+	elif options.format == "txt":
+		printer = jim_printer.printer(outfile)
+	else:
+		assert False
+	make_jim(infile, printer, title)
 
 sys.exit(main(sys.argv))
 

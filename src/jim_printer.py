@@ -8,6 +8,7 @@ class printer:
 		self.header(comp)
 		for res in comp.results:
 			self.print_result(res)
+		self.out.write("\n")
 	
 	def header(self, comp):
 		headings = {
