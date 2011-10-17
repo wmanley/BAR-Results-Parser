@@ -355,7 +355,7 @@ Position	Name	Score		Medal
 27	Flic Farrimond	28		
 
 Forbes
-1 Entries
+1 Entry
 Position	Name	Score		Medal
 1=	Mike Davenport	40		
 
@@ -488,7 +488,7 @@ Position	Name	Score		Medal
 6=	Mark Baker	-78		
 
 Irving
-1 Entries
+1 Entry
 Position	Name	Score		Medal
 1=	Robin Munday	43		
 
@@ -593,7 +593,7 @@ Position	Name	Score		Medal
 10	Phil Kench	83		
 
 Mary Shelley
-1 Entries
+1 Entry
 Position	Name	Score		Medal
 1=	David Ramsey	78	4x	
 
@@ -924,7 +924,7 @@ Position	Name	Score		Medal
 12=	Trudy Henry	220		
 
 Shrewsbury rentries
-1 Entries
+1 Entry
 Position	Name	Score		Medal
 12=	John Millar	220		
 
@@ -1118,7 +1118,7 @@ Position	Name	Score		Medal
 10	Debra Nickson	75		
 
 Uerner??????????????
-1 Entries
+1 Entry
 Position	Name	Score		Medal
 1=	Colin Reed	25		
 
