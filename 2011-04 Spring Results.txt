@@ -5,7 +5,7 @@ Position	Name	Score		Medal
 1	Dan Aplin	110		Gold
 2=	Martin Lewis	109		Silver
 2=	Ted George	109		Silver
-4	Heinrich Harke	108		Bronze
+4	Heinrich Härke	108		Bronze
 5=	Dick Craven	103		Bronze
 5=	Nicky Munday	103		Bronze
 7	John Duff	100		
@@ -50,7 +50,7 @@ Position	Name	Score		Medal
 3	Dan Aplin	72	8x	Silver
 4=	Dick Craven	71	8x	Bronze
 4=	Ted George	71	8x	Bronze
-6	Heinrich Harke	66	6x	Bronze
+6	Heinrich Härke	66	6x	Bronze
 7	John Duff	66	4x	
 8	Keith Pike	65	3x	
 9	Joe Rodgers	65	1x	
@@ -120,7 +120,7 @@ Position	Name	Score		Medal
 5=	Richard Munday	274		
 5=	Martin Lewis	274		
 7	Dick Craven	273		
-8	Heinrich Harke	272		
+8	Heinrich Härke	272		
 9	Dick Polk	270		
 10	Herb Teachey	250		
 11=	Nick Pollard	237		
@@ -222,7 +222,7 @@ Position	Name	Score		Medal
 2=	John Duff	69		Silver
 4	Nick Pollard	65		Bronze
 5=	Dick Polk	64		Bronze
-5=	Heinrich Harke	64		Bronze
+5=	Heinrich Härke	64		Bronze
 5=	Peter Ryder	64		Bronze
 8	Neil Jones	63		
 9=	Phil Kench	61		
@@ -267,7 +267,7 @@ Position	Name	Score		Medal
 11=	Dick Craven	125		
 11=	David Ramsey	125		
 13	John Duff	124		
-14=	Heinrich Harke	123		
+14=	Heinrich Härke	123		
 14=	Will Manley	123		
 16	Martin Lewis	122		
 17	Nick Pollard	120		
@@ -329,7 +329,7 @@ Position	Name	Score		Medal
 1	John Duff	139		Gold
 2	Martin Lewis	137		Silver
 3	Peter Ryder	133		Silver
-4	Heinrich Harke	131		Bronze
+4	Heinrich Härke	131		Bronze
 5=	Ted George	129		Bronze
 5=	Richard Munday	129		Bronze
 5=	Peter Stettler	129		Bronze
@@ -425,7 +425,7 @@ Position	Name	Score		Medal
 11=	Ken Hynes	246		
 14	Mike Davenport	245		
 15	John Millar	236		
-16	Heinrich Harke	226		
+16	Heinrich Härke	226		
 17	Trudy Henry	215		
 18	David Ramsey	214		
 19	John Millar	202		
@@ -552,7 +552,7 @@ Kett
 14 Entries
 Position	Name	Score		Medal
 1	Phil Kench	140		Silver
-2	Heinrich Harke	132		Bronze
+2	Heinrich Härke	132		Bronze
 3	Mike Davenport	130		
 4	John Duff	128		
 5	Herb Teachey	121		
@@ -601,7 +601,7 @@ Milton
 6 Entries
 Position	Name	Score		Medal
 1=	Richard Munday	129		Bronze
-1=	Heinrich Harke	129		Bronze
+1=	Heinrich Härke	129		Bronze
 3	Will Manley	124		
 4=	Peter Ryder	118		
 4=	Nicky Munday	118		
@@ -647,8 +647,8 @@ Position	Name	Score		Medal
 9=	Tony Garwood	75		
 9=	Herb Teachey	75		
 11	Dick Polk	73		
-12	Heinrich Harke	72		
-13	Armin Landholt	70		
+12	Heinrich Härke	72		
+13	Armin Landolt	70		
 14	Mike Davenport	69		
 15	Neil Jones	68		
 16=	Graham Mott	67		
@@ -699,7 +699,7 @@ Newell
 8 Entries
 Position	Name	Score		Medal
 1	Peter Ryder	59		Silver
-2	Heinrich Harke	57		Bronze
+2	Heinrich Härke	57		Bronze
 3	Mike Davenport	52		
 4	David Ramsey	38		
 5=	Colin Reed	37		
@@ -711,7 +711,7 @@ Noel
 18 Entries
 Position	Name	Score		Medal
 1	Martin Lewis	109		Gold
-2	Heinrich Harke	108		Silver
+2	Heinrich Härke	108		Silver
 3	Phil Kench	104		Bronze
 4=	Nicky Munday	103		Bronze
 4=	Dick Craven	103		Bronze
@@ -792,7 +792,7 @@ Position	Name	Score		Medal
 8	Phil Kench	282		
 9	Dan Aplin	280		
 10	Nick Pollard	277		
-11	Heinrich Harke	276		
+11	Heinrich Härke	276		
 12	Neil Jones	274		
 13	Ken Hynes	272		
 14=	Ralph Davenport	271		
@@ -827,7 +827,7 @@ Position	Name	Score		Medal
 Robin Hood
 20 Entries
 Position	Name	Score		Medal
-1	Heinrich Harke	40		Gold
+1	Heinrich Härke	40		Gold
 2	Colin Reed	39		Silver
 3=	Robert Baranyai	35		Bronze
 3=	Nicky Munday	35		Bronze
@@ -881,7 +881,7 @@ Position	Name	Score		Medal
 1	Richard Munday	282		Gold
 2	Nicky Munday	280		Silver
 3	Doug Johnston	277		Silver
-4=	Heinrich Harke	276		Bronze
+4=	Heinrich Härke	276		Bronze
 4=	Tony Garwood	276		Bronze
 6	Will Manley	274		Bronze
 7	Martin Lewis	271		
@@ -992,7 +992,7 @@ Position	Name	Score		Medal
 1	John Duff	196		Gold
 2	Richard Munday	195		Silver
 3	Tony Garwood	192		Silver
-4	Heinrich Harke	191		Bronze
+4	Heinrich Härke	191		Bronze
 5	Phil Kench	189		Bronze
 6=	Will Manley	186		Bronze
 6=	Dick Craven	186		Bronze
@@ -1033,7 +1033,7 @@ Position	Name	Score		Medal
 2=	Dick Polk	23		Silver
 5=	Richard Munday	22		Bronze
 5=	David Nash	22		Bronze
-7=	Armin Landholt	21		
+7=	Armin Landolt	21		
 7=	Ian Grant	21		
 9=	Tony Garwood	20		
 9=	Will Manley	20		
@@ -1043,7 +1043,7 @@ Position	Name	Score		Medal
 13=	Peter Ryder	19		
 13=	Keith Pike	19		
 16=	Mike Davenport	18		
-16=	Heinrich Harke	18		
+16=	Heinrich Härke	18		
 18=	Nick Pollard	16		
 18=	Alan Birkbeck	16		
 20	Ken Hynes	15		
@@ -1107,7 +1107,7 @@ Turner
 10 Entries
 Position	Name	Score		Medal
 1	Phil Kench	140		Silver
-2	Heinrich Harke	132		Bronze
+2	Heinrich Härke	132		Bronze
 3	John Duff	128		
 4	Herb Teachey	126		
 5	Dick Polk	119		
@@ -1186,7 +1186,7 @@ Position	Name	Score		Medal
 5	Nicky Munday	126		
 6	Graham Mott	124		
 7	Robert Baranyai	123		
-8=	Heinrich Harke	114		
+8=	Heinrich Härke	114		
 8=	Nick Pollard	114		
 10	Dick Polk	113		
 11	Kate Eustace	108		
@@ -1249,7 +1249,7 @@ Position	Pair	Score
 1	Dick Craven (81) & Nick Pollard (78)	159
 2	Peter Ryder (79) & Tony Garwood (75)	154
 3=	Richard Munday (78) & Armin Landolt (70)	148
-3=	Phil Kench (76) & Heinrich Harke (72)	148
+3=	Phil Kench (76) & Heinrich Härke (72)	148
 
 Centrefire Pairs
 No entries
@@ -1257,7 +1257,7 @@ No entries
 Churchill Allies
 2 Entries
 Position	Pair	Score
-1	Nicky Monday (15) & Phil Kench (33)	48
+1	Nicky Munday (15) & Phil Kench (33)	48
 2	Dan Aplin (26) & Neil Jones (-31)	-5
 
 Classic Pistol Pairs
@@ -1287,7 +1287,7 @@ Position	Pair	Score
 Schnellfeuer Pairs
 4 Entries
 Position	Pair	Score
-1	Heinrich Harke (191) & Phil Kench (189)	380
+1	Heinrich Härke (191) & Phil Kench (189)	380
 2	Richard Munday (195) & Nicky Munday (183)	378
 3	Peter Ryder (185) & Tony Garwood (192)	377
 4	Dick Craven (186) & Nick Pollard (164)	350
@@ -1296,7 +1296,7 @@ Service Pistol Pairs
 5 Entries
 Position	Pair	Score
 1	Dan Aplin (110) & Ted George (109)	219
-2	Martin Lewis (109) & Heinrich Harke (108)	217
+2	Martin Lewis (109) & Heinrich Härke (108)	217
 3	Richard Munday (93) & Nicky Munday (103)	196
 4	Dick Craven (103) & Nick Pollard (92)	195
 5	Phil Kench (97) & Ian Grant (91)	188
@@ -1305,7 +1305,7 @@ Silhouettes Pairs
 4 Entries
 Position	Pair	Score
 1	Peter Ryder (283) & Tony Garwood (285)	568
-2	Richard Munday (274) & Heinrich Harke (272)	546
+2	Richard Munday (274) & Heinrich Härke (272)	546
 3	Phil Kench (284) & Will Manley (237)	521
 4	Dick Craven (273) & Nick Pollard (237)	510
 
@@ -1386,7 +1386,7 @@ Position	Name	Score		Medal
 2	Richard Munday	412	Silver
 3	Phil Kench	404	Bronze
 4	Tony Garwood	402	Bronze
-5	Heinrich Harke	399	
+5	Heinrich Härke	399	
 6=	Martin Lewis	393	
 6=	Peter Ryder	393	
 8	David Ramsey	389	
@@ -1405,7 +1405,7 @@ Gisborough Aggregate
 Position	Name	Score		Medal
 1	Phil Kench	388	Silver
 2	Peter Ryder	381	Bronze
-3	Heinrich Harke	380	
+3	Heinrich Härke	380	
 4	Dick Craven	376	
 5	Richard Munday	367	
 6	Herb Teachey	337	
@@ -1440,7 +1440,7 @@ Position	Name	Score		Medal
 3=	Tony Garwood	522	
 3=	Peter Ryder	522	
 5	John Duff	506	
-6	Heinrich Harke	502	
+6	Heinrich Härke	502	
 7	Herb Teachey	473	
 8	Trudy Henry	414	
 
