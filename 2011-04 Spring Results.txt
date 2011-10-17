@@ -357,7 +357,7 @@ Position	Name	Score		Medal
 Forbes
 1 Entry
 Position	Name	Score		Medal
-1=	Mike Davenport	40		
+1	Mike Davenport	40		
 
 Gasser
 25 Entries
@@ -490,7 +490,7 @@ Position	Name	Score		Medal
 Irving
 1 Entry
 Position	Name	Score		Medal
-1=	Robin Munday	43		
+1	Robin Munday	43		
 
 Jungfrau
 24 Entries
@@ -595,7 +595,7 @@ Position	Name	Score		Medal
 Mary Shelley
 1 Entry
 Position	Name	Score		Medal
-1=	David Ramsey	78	4x	
+1	David Ramsey	78	4x	
 
 Milton
 6 Entries
@@ -1120,7 +1120,7 @@ Position	Name	Score		Medal
 Uerner??????????????
 1 Entry
 Position	Name	Score		Medal
-1=	Colin Reed	25		
+1	Colin Reed	25		
 
 Victoria
 19 Entries
@@ -1377,12 +1377,12 @@ Position	Name	Score		Medal
 Ferdinand Piller Ladies Aggregate
 1 Entry
 Position	Name	Score		Medal
-1=	Nicky Munday	463	
+1	Nicky Munday	463	
 
 Frank Cook Aggregate
 17 Entries
 Position	Name	Score		Medal
-1=	Nicky Munday	415	Gold
+1	Nicky Munday	415	Gold
 2	Richard Munday	412	Silver
 3	Phil Kench	404	Bronze
 4	Tony Garwood	402	Bronze
