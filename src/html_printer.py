@@ -107,11 +107,7 @@ class printer:
 
 	
 	def print_pos(self, res):
-		print >>self.out, "<tr onclick='javascript:ClickedThis(this)' class='", res.prize, "'><td>"
-		print >>self.out, res.pos
-		if res.joint:
-			print >>self.out, "="
-		print >>self.out, "</td>"
+		self.out.write("<tr onclick='javascript:ClickedThis(this)' class='%s'><td>%s%s</td>" % (res.prize, res.pos, "=" if res.joint else ""))
 	
 	def print_score(self, res):
 		score_printer(self.out).print_score(res.score, res.joint)
