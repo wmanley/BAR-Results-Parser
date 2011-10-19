@@ -7,7 +7,7 @@ export PREFIX=$(readlink -f "${TESTS_PREFIX}/..")
 for i in ${TESTS_PREFIX}/*/*.test
 do
     cd "$(dirname $i)"
-    if "./$(basename $i)" > "$CWD"/output.txt
+    if "./$(basename $i)"
     then echo SUCCESS: $i
     else echo FAILURE: $i
     fi

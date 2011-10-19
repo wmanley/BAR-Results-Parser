@@ -1,0 +1,30 @@
+#!/bin/bash
+
+#
+# The 'results parser' works a little bit like:
+#
+#             +--------+                     +---------+
+#     Input --| parser |--> Internal model --| printer |--> Output
+#             +--------+                     +---------+
+#
+# Originally it was designed to parse results as seen in the official BAR
+# results books and produce pretty html output with a 'Jim parser' and a 'HTML
+# printer'.  By constructing the pipeline using a 'Jim parser' and a 'Jim
+# printer' any valid official BAR input should be reproduced.  This can be
+# tested for to validate the 'Jim parser'.
+#
+# This should prove an effective integration test that should exercise many of
+# the "happy paths" through the code.
+#
+
+../../src/make_jim.py --format=txt input.txt output.txt
+cmp input.txt output.txt
+exit_code=$?
+if (($exit_code == 1));
+then
+	echo "FAIL: inputs were not reproduced by Jim printer"
+	diff --ignore-space-change --suppress-common-lines --side-by-side input.txt output.txt
+fi
+
+exit $exit_code
+
