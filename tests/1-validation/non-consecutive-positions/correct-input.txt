@@ -1,0 +1,41 @@
+Scott
+1 Entry
+Position		Name				Score		Medal
+1		Richard Munday			281		
+
+
+Granet
+3 Entries
+Position		Name				Score		Medal
+1		Richard Munday			281		
+2=		Nick Pollard			273		
+2=		Neil Jones			273		
+
+Jungfrau
+3 Entries
+Position		Name				Score		Medal
+1		Richard Munday			281		
+2=		Nick Pollard			273		
+2=		Neil Jones			273		
+
+Kett
+3 Entries
+Position		Name				Score		Medal
+1		Richard Munday			281		
+2=		Nick Pollard			273		
+2=		Neil Jones			273		
+
+Neame
+3 Entries
+Position		Name				Score		Medal
+1		Richard Munday			281		
+2=		Nick Pollard			273		
+2=		Neil Jones			273		
+
+Kandahar
+3 Entries
+Position		Name				Score		Medal
+1		Richard Munday			281		
+2		Nick Pollard			273		
+3		Neil Jones			272		
+

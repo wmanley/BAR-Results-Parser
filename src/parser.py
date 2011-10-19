@@ -49,7 +49,7 @@ class single:
 		if m[5]:
 			nox = m[5]
 		return single_result(
-			pos = m[0],
+			pos = int(m[0]),
 			joint = (m[1] == "="),
 			name = m[2].strip(),
 			score = self.parse_score(m[3], nox),
@@ -175,11 +175,28 @@ class state_reading_scores:
 					print >>sys.stderr, line_prefix + "\"" + i + "\" repeated in competition \"" + self.comp.name + "\""
 					print >>sys.stderr, " "*len(line_prefix) + "Previously seen on line", str(self.people[i])
 				self.people[i] = self.stater.lineno
+			has_same_posn_as_previous = len(self.comp.results) > 0 and this_result.pos == self.comp.results[-1].pos
+			previous_is_joint = len(self.comp.results) > 0 and self.comp.results[-1].joint
+			expected_posn = len(self.comp.results) + 1
+			if (this_result.pos == expected_posn) == (this_result.joint and previous_is_joint and has_same_posn_as_previous):
+				if not has_same_posn_as_previous:
+					sys.stderr.write('%s:%d:\n    Error: In competition "%s": "%s" should be in position %d, not %d\n' % (self.stater.filename, self.stater.lineno, self.comp.name, pl.get(this_result)[0], expected_posn, this_result.pos))
+				else:
+					sys.stderr.write('%s:%d:\n    Error: In competition "%s": "%s" shares position %d with "%s" but they are not both marked as joint\n' % (self.stater.filename, self.stater.lineno, self.comp.name, pl.get(this_result)[0], this_result.pos, pl.get(self.comp.results[-1])[0]))
+			if len(self.comp.results) > 0 and self.comp.results[-1].joint and self.comp.results[-1].pos == len(self.comp.results) and not has_same_posn_as_previous:
+				sys.stderr.write('%s:%d:\n    Error: In competition "%s" "%s" in position %d marked as joint but does not share a position with anybody\n' % (self.stater.filename, self.last_result_line_no, self.comp.name, pl.get(self.comp.results[-1])[0], this_result.pos))
 			self.comp.results.append(this_result)
-	
+			self.last_result_line_no = self.stater.lineno
+
 	def exit(self):
 		if self.comp.entries != len(self.comp.results):
 			sys.stderr.write('%s:%d:\n    Error: Competition "%s" has %d entries but claims to have %d\n' % (self.stater.filename, self.stater.entries_line_no, self.comp.name, len(self.comp.results), self.comp.entries))
+		if len(self.comp.results) > 0:
+			last = self.comp.results[-1]
+			pl = personlister()
+			people = pl.get(last)
+			if last.joint and last.pos == len(self.comp.results):
+				sys.stderr.write('%s:%d:\n    Error: In competition "%s" "%s" in position %d marked as joint but does not share a position with anybody\n' % (self.stater.filename, self.last_result_line_no, self.comp.name, pl.get(last)[0], last.pos))
 		self.stater.add_comp(self.comp)
 	
 	def parse_result(self, line):

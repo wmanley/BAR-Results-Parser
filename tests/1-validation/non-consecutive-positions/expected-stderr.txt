@@ -1,0 +1,14 @@
+incorrect-input.txt:4:
+    Error: In competition "Scott": "Richard Munday" should be in position 1, not 3
+incorrect-input.txt:12:
+    Error: In competition "Granet": "Neil Jones" shares position 2 with "Nick Pollard" but they are not both marked as joint
+incorrect-input.txt:17:
+    Error: In competition "Jungfrau" "Richard Munday" in position 2 marked as joint but does not share a position with anybody
+incorrect-input.txt:26:
+    Error: In competition "Kett": "Neil Jones" shares position 2 with "Nick Pollard" but they are not both marked as joint
+incorrect-input.txt:33:
+    Error: In competition "Neame": "Neil Jones" shares position 2 with "Nick Pollard" but they are not both marked as joint
+incorrect-input.txt:39:
+    Error: In competition "Kandahar": "Nick Pollard" should be in position 2, not 3
+incorrect-input.txt:40:
+    Error: In competition "Kandahar": "Neil Jones" should be in position 3, not 4

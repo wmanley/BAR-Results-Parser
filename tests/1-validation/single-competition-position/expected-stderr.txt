@@ -1,3 +1,2 @@
 incorrect-input.txt:4:
-    Error: "Mike Davenport" marked as 1= in competition with a single entry
-
+    Error: In competition "Forbes" "Mike Davenport" in position 1 marked as joint but does not share a position with anybody
