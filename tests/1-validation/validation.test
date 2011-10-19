@@ -19,6 +19,7 @@ do
 		echo "Validation $i failed:"
 		diff "$i/expected-stderr.txt" "$i/actual-stderr.txt"
 	fi
+	rm "$i/actual-stderr.txt"
 done
 exit $all_exit_code
 

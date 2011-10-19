@@ -26,5 +26,7 @@ then
 	diff --ignore-space-change --suppress-common-lines --side-by-side input.txt output.txt
 fi
 
+rm output.txt
+
 exit $exit_code
 
