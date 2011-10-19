@@ -1,6 +1,4 @@
-incorrect-input.txt:9:
-    Error: "Neil Jones" repeated in competition "Scott"
-           Previously seen on line 6
-incorrect-input.txt:10:
-    Error: "Ted George" repeated in competition "Scott"
-           Previously seen on line 8
+incorrect-input.txt:2:
+    Error: Competition "Scott" has 5 entries but claims to have 7
+incorrect-input.txt:11:
+    Error: Competition "Granet" has 2 entries but claims to have 1

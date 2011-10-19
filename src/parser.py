@@ -10,6 +10,7 @@ class state_between_competitions:
 		m = re.match(r'(\d+) Entr(y|ies)', line)
 		if m:
 			entry_count = int(m.group(1))
+			self.stater.entries_line_no = self.stater.lineno
 			if entry_count == 1 and m.group(2) == "ies":
 				sys.stderr.write('%s:%d:\n    Error: "1 Entry" should be used rather than "1 Entries" in competition "%s"\n' % (self.stater.filename, self.stater.lineno, self.compname))
 			elif entry_count > 1 and m.group(2) == "y":
@@ -177,6 +178,8 @@ class state_reading_scores:
 			self.comp.results.append(this_result)
 	
 	def exit(self):
+		if self.comp.entries != len(self.comp.results):
+			sys.stderr.write('%s:%d:\n    Error: Competition "%s" has %d entries but claims to have %d\n' % (self.stater.filename, self.stater.entries_line_no, self.comp.name, len(self.comp.results), self.comp.entries))
 		self.stater.add_comp(self.comp)
 	
 	def parse_result(self, line):
@@ -209,6 +212,7 @@ class parser:
 				self.state = self.nextstate
 				self.nextstate = None
 			self.state.do_line(line.strip())
+		self.state.exit()
 		return self.comps
 	
 	def enter_state_reading(self, cname, ctype, centries):
