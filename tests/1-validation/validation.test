@@ -1,0 +1,24 @@
+#!/bin/bash
+
+VDIR=$(readlink -f $(dirname "$BASH_SOURCE"))
+all_exit_code=0
+
+cd "$VDIR"
+for i in */
+do
+	echo "Validating $i"
+	(
+		cd "$i"
+		../../../src/make_html.py incorrect-input.txt /dev/null
+	) > /dev/null 2> "$i/actual-stderr.txt"
+	cmp "$i/expected-stderr.txt" "$i/actual-stderr.txt"
+	exit_code=$?
+	all_exit_code=$((all_exit_code+exit_code))
+	if (($exit_code != 0));
+	then
+		echo "Validation $i failed:"
+		diff "$i/expected-stderr.txt" "$i/actual-stderr.txt"
+	fi
+done
+exit $all_exit_code
+
