@@ -1,0 +1,38 @@
+Thomas
+34 Entries
+Position	Name	Score		Medal
+1=	John Duff	23		Gold
+1=	Martin Lewis	23		Gold
+1=	Dick Craven	23		Gold
+1=	Dick Polk	23		Gold
+5=	Richard Munday	22		Bronze
+5=	David Nash	22		Bronze
+7=	Armin Landolt	21		
+7=	Ian Grant	21		
+9=	Tony Garwood	20		
+9=	Will Manley	20		
+9=	Phil Kench	20		
+9=	Neil Jones	20		
+13=	David Ramsey	19		
+13=	Peter Ryder	19		
+13=	Keith Pike	19		
+16=	Mike Davenport	18		
+16=	Heinrich Härke	18		
+18=	Nick Pollard	16		
+18=	Alan Birkbeck	16		
+20	Ken Hynes	15		
+21	Graham Mott	14		
+22=	Robert Baranyai	13		
+22=	Sophie Langley	13		
+24	Bob Lucas	12		
+25=	Tony Haywood	8		
+25=	Nicky Munday	8		
+27=	Herb Teachey	7		
+27=	Mark Baker	7		
+27=	Ralph Davenport	7		
+30	Joe Rodgers	6		
+31=	Colin Reed	4		
+31=	Eddie Armson	4		
+31=	Debra Nickson	4		
+34	John Millar	0		
+
