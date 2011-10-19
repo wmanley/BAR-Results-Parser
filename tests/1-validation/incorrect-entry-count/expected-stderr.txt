@@ -1,0 +1,6 @@
+incorrect-input.txt:9:
+    Error: "Neil Jones" repeated in competition "Scott"
+           Previously seen on line 6
+incorrect-input.txt:10:
+    Error: "Ted George" repeated in competition "Scott"
+           Previously seen on line 8
