@@ -7,8 +7,14 @@ class state_between_competitions:
 		self.compname = ""
 		self.stater = stater
 	def do_line(self, line):
-		m = re.match(r'(\d+) Entries', line)
+		m = re.match(r'(\d+) Entr(y|ies)', line)
 		if m:
+			entry_count = int(m.group(1))
+			if entry_count == 1 and m.group(2) == "ies":
+				sys.stderr.write('%s:%d:\n    Error: "1 Entry" should be used rather than "1 Entries" in competition "%s"\n' % (self.stater.filename, self.stater.lineno, self.compname))
+			elif entry_count > 1 and m.group(2) == "y":
+				sys.stderr.write('%s:%d:\n    Error: "%d Entries" should be used rather than "%d Entry" in competition "%s"\n' % (self.stater.filename, self.stater.lineno, entry_count, entry_count, self.compname))
+
 			self.stater.enter_state_awaiting_header(self.compname, int(m.group(1)))
 		elif line == "No Entries":
 			self.stater.add_comp(competition(self.compname))

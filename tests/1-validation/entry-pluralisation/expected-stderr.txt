@@ -1,3 +1,4 @@
 incorrect-input.txt:2:
-    Error: "1 Entry" should be used rather than "1 Entries"
-
+    Error: "1 Entry" should be used rather than "1 Entries" in competition "Forbes"
+incorrect-input.txt:7:
+    Error: "2 Entries" should be used rather than "2 Entry" in competition "Scott"

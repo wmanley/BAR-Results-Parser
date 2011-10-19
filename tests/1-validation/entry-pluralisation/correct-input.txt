@@ -3,3 +3,9 @@ Forbes
 Position	Name	Score	Medal
 1	Mike Davenport	40
 
+Scott
+2 Entries
+Position	Name	Score	Medal
+1	Mike Davenport	40
+2	Will Manley	30
+
