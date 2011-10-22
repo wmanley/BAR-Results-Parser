@@ -18,7 +18,7 @@ class printer:
 			"twoteam":   "Position\tPair\tScore",
 			"aggregate": "Position\tName\tScore(stages 1/2/3/4/Tot)\tMedal"
 		}
-		self.out.write("%s\n%d Entries\n%s\n" % (comp.name, comp.entries, headings.get(comp.type)))
+		self.out.write("%s\n%d Entr%s\n%s\n" % (comp.name, comp.entries, "ies" if comp.entries > 1 else "y", headings.get(comp.type)))
 	
 	def print_result(self, res):
 		self.print_pos(res)

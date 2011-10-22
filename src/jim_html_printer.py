@@ -18,7 +18,7 @@ class printer:
 			"twoteam":   "<tr><th>Position</th>\t<th>Pair</th>\t<th>Score</th></tr>",
 			"aggregate": "<tr><th>Position</th>\t<th>Name</th>\t<th>Score(stages 1/2/3/4/Tot)</th>\t<th>Medal</th></tr>"
 		}
-		self.out.write("<h2>%s</h2>\n<p>%d Entries</p>\n<table>\n\t%s\n" % (comp.name, comp.entries, headings.get(comp.type)))
+		self.out.write("<h2>%s</h2>\n<p>%d %s</p>\n<table>\n\t%s\n" % (comp.name, comp.entries, "Entries" if comp.entries > 1 else "Entry", headings.get(comp.type)))
 
 	def print_result(self, res):
 		self.out.write("<tr>")
