@@ -21,6 +21,11 @@ class std_score(score):
 			return str(self.score())
 		else:
 			return str(self.score()) + " " + str(self.nox()) + "x"
+	def __cmp__(self, other):
+		if self._score == other._score:
+			return cmp(self._nox, other._nox)
+		else:
+			return cmp(self._score, other._score)
 
 class time_score(score):
 	def __init__(self):
