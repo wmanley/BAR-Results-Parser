@@ -39,6 +39,11 @@ class time_score(score):
 		other.visit_time(self)
 	def __str__(self):
 		return str(self.time()) + "s " + " (" + str(self.score) + ")"
+	def __cmp__(self, other):
+		if self.time() == other.time():
+			return cmp(self.score(), other.score())
+		else:
+			return -cmp(self.time(), other.time())
 
 class no_score(score):
 	def visit(self, other):
