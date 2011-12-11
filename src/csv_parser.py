@@ -6,6 +6,7 @@ from itertools import izip
 from collections import namedtuple
 from result import *
 import jim_printer
+import optparse
 
 class ParseError(Exception):
     def __init__(self, lineno, description):
@@ -153,8 +154,16 @@ class twoteam:
             prize = m[9])
 
 def main(argv):
+    parser = optparse.OptionParser("usage: %prog [options] input-file.csv")
+    (options, args) = parser.parse_args(argv[1:])
+    if len(args) != 1:
+        parser.error("wrong number of arguments")
+        return 1
+    input_csv_filename = args[0]
+
     printer = jim_printer.printer(sys.stdout)
-    for i in parse(csv.reader(open(argv[1], "r"))):
+    parsed = parse(csv.reader(open(input_csv_filename, "r")))
+    for i in parsed:
         printer.print_comp(i)
     return 0
 
