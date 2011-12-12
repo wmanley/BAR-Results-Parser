@@ -22,10 +22,19 @@ class std_score(score):
 		else:
 			return str(self.score()) + " " + str(self.nox()) + "x"
 	def __cmp__(self, other):
-		if self._score == other._score:
-			return cmp(self._nox, other._nox)
+		if isinstance(other, no_score):
+			return 1
+		elif self.score() == other.score():
+			return cmp(self.nox(), other.nox())
 		else:
-			return cmp(self._score, other._score)
+			return cmp(self.score(), other.score())
+	def __add__(self, other):
+		if self is None:
+			return self
+		elif isinstance(other, no_score):
+			return no_score()
+		else:
+			return std_score(self.score() + other.score(), self.nox() + other.nox())
 
 class time_score(score):
 	def __init__(self):
@@ -50,6 +59,13 @@ class no_score(score):
 		other.visit_none(self)
 	def __str__(self):
 		return ""
+	def __cmp__(self, other):
+		if isinstance(other, no_score):
+			return 0
+		else:
+			return -1
+	def __add__(self, other):
+		return no_score()
 
 class result:
 	def __init__(self, pos, joint, prize):

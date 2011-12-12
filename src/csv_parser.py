@@ -7,6 +7,7 @@ from collections import namedtuple
 from result import *
 import jim_printer
 import optparse
+import re
 
 class ParseError(Exception):
     def __init__(self, lineno, description):
@@ -88,6 +89,7 @@ def assign_positions(iterable):
         yield last
 
 class Single:
+    dependencies = []
     def parse_row(self, row):
         return dict(name=row[0], score=std_score(int(row[1]), int(row[2] if row[2] != '' else '0')))
     def parse(self, rows):
@@ -100,58 +102,98 @@ class Single:
 		        prize = award_medal(i["pos"], len(results)),
 		        **i)
 
+
+class Pairs:
+    def __init__(self, source_comp_name, lookup_table):
+        self.source_comp_name = source_comp_name
+        self.dependencies = [ source_comp_name ]
+        self.lookup_table = lookup_table
+    def moo(self, row):
+        for person in row:
+            score = self.lookup_table.get((self.source_comp_name, person))
+            if person == "":
+                pass
+            elif score is None:
+                sys.stderr.write('%s did not compete in competition %s required for a pairs competiton\n' % (person, self.source_comp_name))
+                yield namedtuple('PreliminaryResult', 'name score')(person, no_score())
+            else:
+                yield namedtuple('PreliminaryResult', 'name score')(person, score)
+    def moo2(self, row):
+        m = list(self.moo(row))
+        return { "competitors": m, "score": sum([ x.score for x in m ], std_score(0)) }
+    def parse(self, rows):
+        processed = [ self.moo2(x) for x in rows ]
+        processed.sort(key=lambda x: x["score"], reverse=True)
+        wine_won = len(processed) > 1
+        for i in assign_positions(processed):
+            pass
+        for i in processed:
+            no_competitors = len(i["competitors"])
+            if no_competitors not in [2, 3]:
+                sys.stderr.write('Error: "Team" comprised of %d members: %s\n' % (no_competitors, str(i['competitors'])))
+            elif isinstance(i["score"], no_score):
+                sys.stderr.write('Warning: No score for team %s\n' % str(i['competitors']))
+            else:
+                yield {2: twoteam_result,
+                       3: threeteam_result}[no_competitors](
+                           prize = "Wine" if wine_won else "",
+                           **i)
+                wine_won = False
+
+class Aggregate:
+    def __init__(self, constituent_competitions, lookup_table):
+        self.constituent_competitions = constituent_competitions
+        self.dependencies = constituent_competitions
+        self.lookup_table = lookup_table
+    def moo(self, rows):
+        for row in rows:
+            name = row[0]
+            scores = [ self.lookup_table.get((x, name), no_score()) for x in self.constituent_competitions ]
+            score = sum(scores, std_score(0))
+            if isinstance(score, no_score):
+                sys.stderr.write("%s had incomplete aggregate %s\n" % (name, str(self.constituent_competitions)))
+            else:
+                yield {"name": name, "scores": [str(x) for x in scores], "score": score}
+    def parse(self, rows):
+        results = sorted(list(self.moo(rows)), key=lambda x: x["score"], reverse=True)
+        for x in assign_positions(results):
+            pass
+        for i in results:
+            yield aggregate_result(
+		        prize = award_medal(i["pos"], len(results)),
+		        **i)
+
 def parse(rows):
+    lookup_table = {}
     for meta, rows in iterate_competitions(rows):
         if meta.type == "Single":
             parser = Single()
+            name = meta.name
+        elif meta.type == "Pair":
+            m = re.match("(.+) \((.*)\)", meta.name)
+            if m:
+                (name, source_comp) = m.groups()
+                parser = Pairs(source_comp, lookup_table)
+            else:
+                sys.stderr.write('Pairs competition "%s" is not well formed!\n' % meta.name)
+                continue
+        elif meta.type == "Aggregate":
+            m = re.match("(.+) \((.*)\)", meta.name)
+            if m:
+                name = m.group(1)
+                constituent_competitions = m.group(2).split(", ")
+                parser = Aggregate(constituent_competitions, lookup_table)
+            else:
+                sys.stderr.write('Aggregate competition "%s" is not well formed!\n' % meta.name)
+                continue
         else:
             sys.stderr.write("Skipping competition '%s': Unknown type '%s'\n" % (meta.name, meta.type))
             continue
-        parser = Single()
-        comp = competition(meta.name, "single", len(rows))
+        comp = competition(name, "single", len(rows))
         comp.results = list(parser.parse(rows))
+        if meta.type != 'Pair':
+            lookup_table.update([((name, x.name), x.score) for x in comp.results])
         yield comp
-
-class aggregate:
-    name = "aggregate"
-    header_regex = r'Position\s+Name\s+Score\(stages 1/2/3/4/Tot\)\s+Medal'
-    score_regex = r'(\d+)(=?)\s+(\D*)\s+((\d+|-)\s*\/\s*(\d+|-)\s*\/\s*(\d+|-)\s*\/\s*(\d+|-))\s*\/\s*(\d+)((\s+(Bronze|Silver|Gold|Wine))?)\s*$'
-    
-    def build(self, m):
-        return aggregate_result(
-            pos = int(m[0].strip()),
-            joint = (m[1] == "="),
-            name = m[2].strip(),
-            scores = m[3].strip().split(" / "),
-            score = std_score(int(m[8].strip())),
-            prize = m[9].strip())
-
-class threeteam:
-    name = "threeteam"
-    header_regex = r'Position\s+Threesome\s+Score'
-    score_regex = r'(\d+)(=?)\s+(\D+)\s*\((-?\d+)\),\s+(\D+)\s*\((-?\d+)\)\s+\&\s+(\D+)\s+\((-?\d+)\)\s*(-?\d+)((\s+(Bronze|Silver|Gold|Wine))?)\s*$'
-    def build(self, m):
-        return threeteam_result(
-            pos = int(m[0]),
-            joint = (m[1] == "="),
-            competitors = [ (m[2].strip(), std_score(int(m[3]))),
-                    (m[4].strip(), std_score(int(m[5]))),
-                    (m[6].strip(), std_score(int(m[7])))],
-            score = std_score(int(m[8])),
-            prize = m[9].strip())
-
-class twoteam:
-    name = "twoteam"
-    header_regex = r'Position\s+Pair\s+Score'
-    score_regex = r'(\d+)(=?)\s+(\D+)\s*\((-?\d+)\)\s+\&\s+(\D+)\s+\((-?\d+)\)\s*(-?\d+)(\s+\(Age \d+\))?((\s+(Bronze|Silver|Gold|Wine))?)\s*$'
-    def build(self, m):
-        return twoteam_result(
-            pos = int(m[0]),
-            joint = (m[1] == "="),
-            competitors = [ (m[2].strip(), std_score(int(m[3].strip()))),
-                    (m[4].strip(), std_score(int(m[5].strip())))],
-            score = std_score(int(m[6])),
-            prize = m[9])
 
 def main(argv):
     parser = optparse.OptionParser("usage: %prog [options] input-file.csv")
