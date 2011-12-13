@@ -8,18 +8,10 @@ import person
 import re
 import os
 
-prefix = os.environ["PREFIX"] if "PREFIX" in os.environ else "."
-
 def make_html(instream, outstream, title):
 	p = parser.parser()
 	printer = html_printer.printer(outstream)
-
-	print >>outstream, "<html><head><title>", title, " - British Alpine Rifles</title>"
-	head = file(prefix + "/header.html")
-	for i in head:
-		print >>outstream, i
-	print >>outstream, "<h1>", title, " - British Alpine Rifles</h1>"
-	print >>outstream, "<p>Click on a name to have all instances of that name highlighted.</p>"
+	html_printer.prelude(outstream, title)
 
 	j = p.parse(instream, sys.argv[1])
 

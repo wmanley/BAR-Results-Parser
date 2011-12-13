@@ -1,4 +1,7 @@
 
+def prelude(output_stream, title):
+	output_stream.write("BAR Results %s\n\n" % title)
+
 # Printing class intended to reproduce the results as created by Jim
 class printer:
 	def __init__(self, out):

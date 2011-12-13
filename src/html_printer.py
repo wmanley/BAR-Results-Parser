@@ -1,4 +1,16 @@
 import result
+import os
+
+prefix = os.environ["PREFIX"] if "PREFIX" in os.environ else "."
+
+def prelude(output_stream, title):
+	output_stream.write("<html><head><title>%s - British Alpine Rifles</title>" % title)
+
+	head = file(prefix + "/header.html")
+	for i in head:
+		output_stream.write(i)
+	output_stream.write("<h1>%s - British Alpine Rifles</h1>\n" % title
+	                  + "<p>Click on a name to have all instances of that name highlighted.</p>")
 
 class bar_graph_printer:
 	def __init__(self, out):

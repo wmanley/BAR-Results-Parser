@@ -6,8 +6,11 @@ from itertools import izip
 from collections import namedtuple
 from result import *
 import jim_printer
+import html_printer
+import jim_html_printer
 import optparse
 import re
+import person
 
 class ParseError(Exception):
     def __init__(self, lineno, description):
@@ -197,16 +200,34 @@ def parse(rows):
 
 def main(argv):
     parser = optparse.OptionParser("usage: %prog [options] input-file.csv")
+    parser.add_option("-o", "--output-format", dest="output_format",
+                      choices=["graph-html", "jim-html", "jim-text"], default="jim-text")
+    parser.add_option("--print-summary", dest="print_summary", action="store_true")
     (options, args) = parser.parse_args(argv[1:])
     if len(args) != 1:
         parser.error("wrong number of arguments")
         return 1
     input_csv_filename = args[0]
+    output_stream = sys.stdout
 
-    printer = jim_printer.printer(sys.stdout)
-    parsed = parse(csv.reader(open(input_csv_filename, "r")))
+    output_module = {"jim-text": jim_printer,
+                     "graph-html": html_printer,
+                     "jim-html": jim_html_printer}[options.output_format]
+    printer = output_module.printer(output_stream)
+    parsed = list(parse(csv.reader(open(input_csv_filename, "r"))))
+
+    output_module.prelude(output_stream, "Results")
     for i in parsed:
         printer.print_comp(i)
+
+    if options.print_summary:
+        peo = person.analyser()
+        for i in parsed:
+            for k in i.results:
+                peo.analyse_result(k)
+        pp = output_module.personlist_printer(peo.people.values(), True, output_stream)
+        pp.print_people()
+
     return 0
 
 if __name__ == '__main__':
