@@ -123,10 +123,10 @@ class bad_result(result):
 		other.visit_bad(self)
 
 class competition:
-	def __init__(self, name = "", ctype="unknown", entries = 0):
+	def __init__(self, name = "", ctype="unknown", entries = 0, results = None):
 		self.entries = entries
 		self.name = name
-		self.results = []
+		self.results = [] if results is None else results
 		self.type = ctype
 
 class personlister:

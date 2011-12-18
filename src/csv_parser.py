@@ -208,8 +208,8 @@ def parse(rows):
         else:
             sys.stderr.write("Skipping competition '%s': Unknown type '%s'\n" % (meta.name, meta.type))
             continue
-        comp = competition(name, "single", len(rows))
-        comp.results = list(parser.parse(rows))
+        results = list(parser.parse(rows))
+        comp = competition(name, "single", len(results), results)
         if meta.type != 'Pair':
             lookup_table.update([((name, x.name), x.score) for x in comp.results])
         yield comp
