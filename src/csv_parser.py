@@ -105,6 +105,19 @@ class Single:
 		        prize = award_medal(i["pos"], len(results)),
 		        **i)
 
+class Smith:
+    def parse_row(self, row):
+        score = no_score() if row[1] == "N/S" else time_score(float(row[1]), int(row[2]))
+        return dict(name=row[0], score=score)
+    def parse(self, rows):
+        results = sorted([self.parse_row(x) for x in rows], lambda a, b: cmp(a["score"], b["score"]))
+        results.reverse()
+        for i in assign_positions(results):
+            pass
+        for i in results:
+            yield single_result(
+                prize = award_medal(i["pos"], len(results)),
+                **i)
 
 class Pairs:
     def __init__(self, source_comp_name, lookup_table):
@@ -171,6 +184,9 @@ def parse(rows):
     for meta, rows in iterate_competitions(rows):
         if meta.type == "Single":
             parser = Single()
+            name = meta.name
+        elif meta.type == "Smith":
+            parser = Smith()
             name = meta.name
         elif meta.type == "Pair":
             m = re.match("(.+) \((.*)\)", meta.name)

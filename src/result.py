@@ -37,9 +37,9 @@ class std_score(score):
 			return std_score(self.score() + other.score(), self.nox() + other.nox())
 
 class time_score(score):
-	def __init__(self):
-		self._time = 0
-		self._score = null_score()
+	def __init__(self, time, score):
+		self._time = time
+		self._score = score
 	def time(self):
 		return self._time
 	def score(self):
@@ -47,7 +47,7 @@ class time_score(score):
 	def visit(self, other):
 		other.visit_time(self)
 	def __str__(self):
-		return str(self.time()) + "s " + " (" + str(self.score) + ")"
+		return str(self.time()) + "s " + " (" + str(self.score()) + ")"
 	def __cmp__(self, other):
 		if self.time() == other.time():
 			return cmp(self.score(), other.score())
