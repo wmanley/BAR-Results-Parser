@@ -27,7 +27,7 @@ class state_between_competitions:
 class single:
 	name = "single"
 	header_regex = r'Position\s+Name\s+Score(\s+Medal)?'
-	score_regex = r'\s*(\d+)(=?)\s+(\D*)\s+(-?\d+\.?\d*|No score)(\s+\d+x)?(\s+\(\d+\))?\s*(Bronze|Silver|Gold|Wine)?\s*$'
+	score_regex = r'\s*(\d+)(=?)\s+(\D*)\s+(-?\d+\.?\d*|No score)(\s+\d+x)?(\s+\(\d+\))?\s*(?P<prize>Bronze|Silver|Gold|Wine)?\s*$'
 
 	def parse_score(self, score, nox):
 		score = score.strip()
@@ -44,7 +44,8 @@ class single:
 			x = int(nox.strip("() \t"))
 		return std_score(s, x)
 
-	def build(self, m):
+	def build(self, match):
+		m=match.groups()
 		nox = ""
 		if m[5]:
 			nox = m[5]
@@ -53,20 +54,21 @@ class single:
 			joint = (m[1] == "="),
 			name = m[2].strip(),
 			score = self.parse_score(m[3], nox),
-			prize = m[6])
+			prize = match.group('prize'))
 
 class manvman:
 	name = "manvman"
 	header_regex = r'Position\s+Name\s+Medal'
 	score_regex = r'(\d+)(=?)\s+(\D*)'
-	def build(self, m):
-		p = re.match(r'(.+)(Bronze|Silver|Gold|Wine)\s*$', m[2].strip())
+	def build(self, match):
+		m=match.groups()
+		p = re.match(r'(.+)(?P<prize>Bronze|Silver|Gold|Wine)\s*$', m[2].strip())
 		if p:
 			return manvman_result(
 				pos = int(m[0].strip()),
 				joint = (m[1] == "="),
 				name = p.groups()[0].strip(),
-				prize = p.groups()[1])
+				prize = p.group('prize'))
 		else:
 			return manvman_result(
 				pos = int(m[0].strip()),
@@ -77,16 +79,17 @@ class manvman:
 class aggregate:
 	name = "aggregate"
 	header_regex = r'Position\s+Name\s+Score\(stages 1/2/3/4/Tot\)\s+Medal'
-	score_regex = r'(\d+)(=?)\s+(\D*)\s+((\d+|-)\s*\/\s*(\d+|-)\s*\/\s*(\d+|-)\s*\/\s*(\d+|-))\s*\/\s*(\d+)((\s+(Bronze|Silver|Gold|Wine))?)\s*$'
+	score_regex = r'(\d+)(=?)\s+(\D*)\s+((\d+|-)\s*\/\s*(\d+|-)\s*\/\s*(\d+|-)\s*\/\s*(\d+|-))\s*\/\s*(\d+)((\s+(?P<prize>Bronze|Silver|Gold|Wine))?)\s*$'
 	
-	def build(self, m):
+	def build(self, match):
+		m=match.groups()
 		return aggregate_result(
 			pos = int(m[0].strip()),
 			joint = (m[1] == "="),
 			name = m[2].strip(),
 			scores = m[3].strip().split(" / "),
 			score = std_score(int(m[8].strip())),
-			prize = m[9].strip())
+			prize = match.group('prize'))
 
 class timed(single):
 	name = "timed"
@@ -95,8 +98,9 @@ class timed(single):
 class threeteam:
 	name = "threeteam"
 	header_regex = r'Position\s+Threesome\s+Score'
-	score_regex = r'(\d+)(=?)\s+(\D+)\s*\((-?\d+)\),\s+(\D+)\s*\((-?\d+)\)\s+\&\s+(\D+)\s+\((-?\d+)\)\s*(-?\d+)((\s+(Bronze|Silver|Gold|Wine))?)\s*$'
-	def build(self, m):
+	score_regex = r'(\d+)(=?)\s+(\D+)\s*\((-?\d+)\),\s+(\D+)\s*\((-?\d+)\)\s+\&\s+(\D+)\s+\((-?\d+)\)\s*(-?\d+)((\s+(?P<prize>Bronze|Silver|Gold|Wine))?)\s*$'
+	def build(self, match):
+		m=match.groups()
 		return threeteam_result(
 			pos = int(m[0]),
 			joint = (m[1] == "="),
@@ -104,20 +108,21 @@ class threeteam:
 					(m[4].strip(), std_score(int(m[5]))),
 					(m[6].strip(), std_score(int(m[7])))],
 			score = std_score(int(m[8])),
-			prize = m[9].strip())
+			prize = match.group('prize'))
 
 class twoteam:
 	name = "twoteam"
 	header_regex = r'Position\s+Pair\s+Score'
-	score_regex = r'(\d+)(=?)\s+(\D+)\s*\((-?\d+)\)\s+\&\s+(\D+)\s+\((-?\d+)\)\s*(-?\d+)(\s+\(Age \d+\))?((\s+(Bronze|Silver|Gold|Wine))?)\s*$'
-	def build(self, m):
+	score_regex = r'(\d+)(=?)\s+(\D+)\s*\((-?\d+)\)\s+\&\s+(\D+)\s+\((-?\d+)\)\s*(-?\d+)(\s+\(Age \d+\))?((\s+(?P<prize>Bronze|Silver|Gold|Wine))?)\s*$'
+	def build(self, match):
+		m=match.groups()
 		return twoteam_result(
 			pos = int(m[0]),
 			joint = (m[1] == "="),
 			competitors = [ (m[2].strip(), std_score(int(m[3].strip()))),
 					(m[4].strip(), std_score(int(m[5].strip())))],
 			score = std_score(int(m[6])),
-			prize = m[9])
+			prize = match.group('prize'))
 
 # List used to match table headers to types of competition.
 # Note: The order is important.  The regexps are evaluated in order and the
@@ -203,7 +208,7 @@ class state_reading_scores:
 		for i in headers:
 			match = re.match(i.score_regex, line)
 			if match:
-				return i.build(match.groups())
+				return i.build(match)
 		
 		print >>sys.stderr, "Line ", self.stater.lineno, ": Warning: unknown score format: '", line, "'"
 		return bad_result(self.stater.lineno, line)
