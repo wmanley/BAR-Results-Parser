@@ -137,10 +137,8 @@ class printer:
 		self.out.write(c[0] + " ("+str(c[1])+")")
 	
 	def visit_threeteam(self, res):
-		print >>self.out, "<td class='threescores'>"
-		print >>self.out, res.competitors[0][0], " (", res.competitors[0][1], "), "
-		print >>self.out, res.competitors[1][0], " (", res.competitors[1][1], ") &amp "
-		print >>self.out, res.competitors[2][0], " (", res.competitors[2][1], ")</td>"
+		x=res.competitors
+		self.out.write("<td class='threescores'>%s (%s), %s (%s) &amp; %s (%s)</td>" % (x[0][0], x[0][1], x[1][0], x[1][1], x[2][0], x[2][1]))
 		self.print_score(res)
 		self.print_prize(res.prize)
 		self.print_bar(res.score)
@@ -155,8 +153,7 @@ class printer:
 		self.print_bar(res.score)
 	
 	def visit_aggregate(self, res):
-		print >>self.out, "<td>", res.name, "</td>"
-		print >>self.out, "<td class='components'>", res.scores, " = </td>"
+		self.out.write('<td>%s</td><td class="components">%s = </td>' % (res.name, " + ".join(res.scores)))
 		self.print_score(res)
 		self.print_prize(res.prize)
 		self.print_bar(res.score)
