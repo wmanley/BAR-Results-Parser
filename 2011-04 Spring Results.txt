@@ -921,12 +921,12 @@ Position	Name	Score		Medal
 9=	Emile De Maria	250		
 9=	Herb Teachey	250		
 11	John Millar	234		
-12=	Trudy Henry	220		
+12	Trudy Henry	220		
 
 Shrewsbury rentries
 1 Entry
 Position	Name	Score		Medal
-12=	John Millar	220		
+1	John Millar	220		
 
 Silberhorn
 9 Entries
@@ -1488,4 +1488,5 @@ Position	Name	Score		Medal
 4	David Nash	151	
 5	Bob Lucas	128	
 6	Colin Reed	120	
+
 
