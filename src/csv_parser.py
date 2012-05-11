@@ -38,6 +38,7 @@ def iterate_competitions(rows):
             yield (metadata, l)
             metadata = None
         elif not blank and not metadata:
+            print row
             metadata = CompMetadata(row[0], "Single" if row[1] == "" else row[1])
             l = []
         elif not blank and metadata:
@@ -155,6 +156,14 @@ class Pairs:
                            prize = "Wine" if wine_won else "",
                            **i)
                 wine_won = False
+
+class Freundschaftschiessen:
+    def parse(self, rows):
+        results = {} # { team: [results] }
+        for i in rows:
+            (team, competitor, score) = i
+            results[team] = (competitor, score)
+            
 
 class Aggregate:
     def __init__(self, constituent_competitions, lookup_table):
